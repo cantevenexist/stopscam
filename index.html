@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Антимошенник · переписка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* глобальный запрет выделения */
+        .no-select, .no-select * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        /* разрешаем выделение только в сообщениях */
+        .bubble-container, .bubble-container * {
+            user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            cursor: text;
+        }
+
+        body {
+            background: #eef2f5;
+            font-family: 'Inter', 'Space Grotesk', sans-serif;
+            color: #1e2a3a;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 850px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1rem 1rem 0.8rem 1rem;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.3rem 0.2rem 0.8rem 0.2rem;
+            flex-shrink: 0;
+        }
+        .score-area {
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+        .score-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #7f8c8d;
+            letter-spacing: 0.3px;
+        }
+        .score-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c5f8a;
+            line-height: 1;
+        }
+        .timer-area {
+            display: flex;
+            align-items: baseline;
+            gap: 0.3rem;
+        }
+        .timer-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #7f8c8d;
+        }
+        .timer-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c5f8a;
+            font-family: monospace;
+        }
+        .exit-btn {
+            background: #2c5f8a;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .exit-btn:hover {
+            background: #1e4a6e;
+            transform: scale(1.02);
+        }
+
+        .chat-container {
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0.2rem 0 0.8rem 0;
+            margin-bottom: 0.2rem;
+        }
+        .chat-log {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-bottom: 0.3rem;
+            width: 100%;
+        }
+
+        .message {
+            display: flex;
+            width: 100%;
+        }
+        .message.scammer {
+            justify-content: flex-start;
+        }
+        .message.victim {
+            justify-content: flex-end;
+        }
+
+        .bubble-container {
+            max-width: 85%;
+            transition: transform 0.15s ease;
+            cursor: text;
+        }
+        .bubble-container:hover {
+            transform: scale(1.01);
+        }
+        @media (max-width: 700px) {
+            .bubble-container { max-width: 92%; }
+        }
+
+        .avatar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 0.6rem;
+            cursor: default;
+        }
+        .scammer .avatar {
+            margin-right: 0.6rem;
+            margin-left: 0;
+        }
+        .victim .avatar {
+            margin-left: 0.6rem;
+            margin-right: 0;
+            order: 2;
+        }
+        .avatar-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,240,0.7);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+        .avatar-name {
+            font-size: 0.6rem;
+            font-weight: 500;
+            margin-top: 0.2rem;
+            color: #7f8c8d;
+        }
+
+        .signs-panel {
+            flex-shrink: 0;
+            padding: 0.5rem 0 0.3rem 0;
+            transition: opacity 0.2s;
+        }
+        .signs-title {
+            font-weight: 500;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            margin-bottom: 0.6rem;
+        }
+        .signs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .sign-btn {
+            background: rgba(255, 255, 245, 0.7);
+            border: 1px solid #dce5ec;
+            border-radius: 40px;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #3a5a7a;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            backdrop-filter: blur(2px);
+        }
+        .sign-btn.active {
+            background: #2c5f8a;
+            color: white;
+            border-color: #2c5f8a;
+        }
+        .sign-btn:hover {
+            background: #1e4a6e;
+            color: white;
+            border-color: #1e4a6e;
+        }
+
+        .submit-btn {
+            background: #2c5f8a;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.15s;
+            margin: 0.3rem 0 0.2rem 0;
+            font-family: inherit;
+            flex-shrink: 0;
+        }
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+        .submit-btn:disabled {
+            background: #b9c2cf;
+            cursor: not-allowed;
+        }
+        .feedback {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #7f8c8d;
+            padding: 0.3rem 0 0.1rem 0;
+            flex-shrink: 0;
+        }
+
+        .pause-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadePause 0.2s ease;
+        }
+        @keyframes fadePause {
+            from { opacity: 0; backdrop-filter: blur(0px); }
+            to { opacity: 1; backdrop-filter: blur(10px); }
+        }
+        .pause-stats {
+            text-align: center;
+            background: transparent;
+        }
+        .pause-points {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #e8eef2;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            letter-spacing: -1px;
+            margin-bottom: 1rem;
+        }
+        .pause-counter-big {
+            font-size: 3.5rem;
+            font-weight: 700;
+            font-family: monospace;
+            color: #cbd5e1;
+            background: transparent;
+            display: inline-block;
+            margin: 0.8rem 0;
+            letter-spacing: 2px;
+        }
+        .pause-progress {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: #cbd5e6;
+            margin: 0.5rem 0;
+        }
+        .pause-progress span {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #e0e7ef;
+        }
+        .pause-label {
+            font-size: 0.7rem;
+            color: #9aaebf;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.8rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(100, 100, 110, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1100;
+        }
+        .modal {
+            background: #f5f7fa;
+            border-radius: 2rem;
+            padding: 1.8rem;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+            border: 1px solid rgba(200, 210, 220, 0.8);
+            color: #2c3e50;
+            max-width: 380px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+            color: #2c5f8a;
+        }
+        .rules {
+            font-size: 0.85rem;
+            background: #eef2f8;
+            padding: 0.9rem;
+            border-radius: 1.2rem;
+            margin: 0.8rem 0;
+            line-height: 1.5;
+            text-align: left;
+            color: #3a5a7a;
+        }
+        .rules p {
+            margin: 0.4rem 0;
+        }
+        .age-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin: 1rem 0;
+            padding: 0.5rem 0.8rem;
+            border-radius: 3rem;
+        }
+        .age-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2c5f8a;
+            white-space: nowrap;
+        }
+        .carousel {
+            width: 100px;
+            height: 60px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            cursor: grab;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel:active {
+            cursor: grabbing;
+        }
+        .age-item {
+            height: 30px;
+            scroll-snap-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 500;
+            color: #aaa;
+            background: white;
+            transition: all 0.1s ease;
+        }
+        .age-item.selected {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c5f8a;
+        }
+        .age-item.placeholder {
+            color: transparent;
+            background: transparent;
+            pointer-events: none;
+            height: 30px;
+        }
+        .time-options {
+            display: flex;
+            gap: 0.7rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        .time-btn {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 0.45rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #2c5f8a;
+            transition: 0.2s;
+        }
+        .time-btn:hover {
+            background: #2c5f8a;
+            color: white;
+            border-color: #2c5f8a;
+        }
+        .time-btn.active-mode {
+            background: #2c5f8a;
+            color: white;
+            border-color: #2c5f8a;
+        }
+        .start-btn {
+            background: #2c5f8a;
+            color: white;
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+            transition: 0.2s;
+        }
+        .start-btn:hover {
+            background: #1e4a6e;
+        }
+        .toast-msg {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c3e4ee6;
+            backdrop-filter: blur(16px);
+            color: #f0fcff;
+            padding: 0.4rem 1rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .chat-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chat-container::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 4px;
+        }
+        .chat-container::-webkit-scrollbar-thumb {
+            background: #b9c2cf;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="no-select">
+<div class="game-container">
+    <div class="game-header">
+        <div class="score-area">
+            <span class="score-value" id="totalScoreDisplay">0</span>
+            <span class="score-label">очки</span>
+        </div>
+        <div style="display: flex; gap: 0.8rem; align-items: center;">
+            <div class="timer-area">
+                <span class="timer-value" id="timerDisplay">0</span>
+                <span class="timer-label">таймер</span>
+            </div>
+            <button id="exitBtn" class="exit-btn">меню</button>
+        </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-log" id="chatLog"></div>
+    </div>
+
+    <div class="signs-panel" id="signsPanel">
+        <div class="signs-title">признаки обмана</div>
+        <div id="signsContainer" class="signs-grid"></div>
+    </div>
+
+    <button id="submitBtn" class="submit-btn">ответить</button>
+    <div id="feedbackMsg" class="feedback"></div>
+</div>
+<div id="toast" class="toast-msg"></div>
+
+<script>
+    // ========== СИТУАЦИИ ПО ВОЗРАСТНЫМ КАТЕГОРИЯМ ==========
+    const SITUATIONS_BY_AGE = {
+        child: [  // 12-15 лет
+            {
+                messages: [
+                    { sender: "scammer", text: "Привет! Ты выиграл 5000 рублей в нашем конкурсе! Для получения приза нужно отправить код из СМС." },
+                    { sender: "victim", text: "Ура! Правда? Какой код?" },
+                    { sender: "scammer", text: "Код который пришёл тебе на телефон. Напиши его сюда, и мы переведём деньги." },
+                    { sender: "victim", text: "Вот код: 482109. Жду приз!" }
+                ],
+                correctSigns: ["Запрос кода из СМС", "Обещание легкого выигрыша", "Давление на эмоции"],
+                decoySigns: ["Угроза блокировки аккаунта", "Перевод на резервный счёт", "Установка удалённого доступа"]
+            },
+            {
+                messages: [
+                    { sender: "scammer", text: "Ваш аккаунт в соцсети будет удалён через час! Перейдите по ссылке и введите пароль." },
+                    { sender: "victim", text: "Ой, что делать? Я не хочу терять страницу!" },
+                    { sender: "scammer", text: "Срочно переходи по ссылке и введи логин и пароль, иначе всё пропадёт." }
+                ],
+                correctSigns: ["Угроза блокировки аккаунта", "Фишинговая ссылка", "Создание паники"],
+                decoySigns: ["Просьба перевести деньги", "Запрос CVV кода", "Оплата налога"]
+            }
+        ],
+        teen: [  // 16-24 года
+            {
+                messages: [
+                    { sender: "scammer", text: "Привет! Это твой друг, я забыл пароль от карты. Дай код из СМС, чтобы оплатить учёбу." },
+                    { sender: "victim", text: "Ок, сейчас. Код: 334567." },
+                    { sender: "scammer", text: "Спасибо, ты спас меня!" }
+                ],
+                correctSigns: ["Просьба кода из СМС от имени друга", "Мошенничество с подменой номера", "Давление на доверие"],
+                decoySigns: ["Угроза блокировки", "Выигрыш в лотерею", "Установка приложения"]
+            },
+            {
+                messages: [
+                    { sender: "scammer", text: "Срочно! Ваша банковская карта заблокирована. Перейдите по ссылке и подтвердите данные." },
+                    { sender: "victim", text: "Что? Я только что платил!" },
+                    { sender: "scammer", text: "Переходите быстрее, иначе деньги спишут!" }
+                ],
+                correctSigns: ["Фишинговая ссылка", "Угроза списания денег", "Создание срочности"],
+                decoySigns: ["Запрос кода из СМС от оператора", "Перевод на резервный счёт", "Оплата выигрыша"]
+            }
+        ],
+        adult: [  // 25-99 лет
+            {
+                messages: [
+                    { sender: "scammer", text: "Здравствуйте, это служба безопасности банка. На вашу карту пытаются оформить кредит на 500 000₽." },
+                    { sender: "victim", text: "Что? Я ничего не оформляла!" },
+                    { sender: "scammer", text: "Переведите деньги на защищённый резервный счёт, чтобы спасти средства. Назовите код из СМС." },
+                    { sender: "victim", text: "Диктую код: 482-109. Помогите!" }
+                ],
+                correctSigns: ["Требование назвать код из СМС", "Перевод на 'резервный счёт'", "Создание искусственной срочности"],
+                decoySigns: ["Предложение установить удалённый доступ", "Просьба перевести деньги на криптокошелек", "Угроза блокировки номера"]
+            },
+            {
+                messages: [
+                    { sender: "scammer", text: "Мама, это я, твой сын! Я попал в аварию, нужны деньги на адвоката 100 тысяч." },
+                    { sender: "victim", text: "Сынок! Что случилось?" },
+                    { sender: "scammer", text: "Никому не звони, переведи на карту 4276..., иначе посадят. Срочно!" },
+                    { sender: "victim", text: "Сейчас переведу, держись!" }
+                ],
+                correctSigns: ["Просьба перевести деньги незнакомцу", "Эмоциональное давление, срочность", "Запрет звонить родственникам"],
+                decoySigns: ["Код из СМС", "Оплата выигрыша", "Удалённый доступ"]
+            }
+        ]
+    };
+
+    function getAgeCategory(age) {
+        if (age >= 12 && age <= 15) return 'child';
+        if (age >= 16 && age <= 24) return 'teen';
+        return 'adult';
+    }
+
+    function getSituationsByAge(age) {
+        const category = getAgeCategory(age);
+        return SITUATIONS_BY_AGE[category];
+    }
+
+    // ---------- СТИЛИ СООБЩЕНИЙ ----------
+    function getDynamicPadding(text) {
+        const len = text.length;
+        if (len > 100) return 5.0;
+        if (len > 70) return 4.0;
+        if (len > 40) return 2.8;
+        if (len > 20) return 2.0;
+        return 1.5;
+    }
+    function getVerticalPadding(text) {
+        const len = text.length;
+        if (len > 100) return { top: 1.2, bottom: 1.8 };
+        if (len > 70) return { top: 1.1, bottom: 1.6 };
+        if (len > 40) return { top: 1.0, bottom: 1.4 };
+        return { top: 0.9, bottom: 1.2 };
+    }
+    function getColorsByRole(role, styleId) {
+        if (role === 'scammer') {
+            switch(styleId) {
+                case 0: return { bg: 'linear-gradient(125deg, #ffe0db, #ffc8bd)', shadow: '#d98f7a', text: '#8a3a28' };
+                case 1: return { bg: '#fddbd4', shadow: '#e0a090', text: '#a04530' };
+                case 2: return { bg: '#ffe0da', shadow: '#e0aea0', text: '#9a4a38' };
+                default: return { bg: '#fdd8cf', shadow: '#d99a82', text: '#8a4a38' };
+            }
+        } else {
+            switch(styleId) {
+                case 0: return { bg: 'linear-gradient(125deg, #dbeafe, #c5e0f5)', shadow: '#8fb0cc', text: '#2a5a7a' };
+                case 1: return { bg: '#d4e8f5', shadow: '#a0bcd4', text: '#2a607a' };
+                case 2: return { bg: '#dceaf5', shadow: '#a0b8d0', text: '#285a78' };
+                default: return { bg: '#d0e2f0', shadow: '#98b0c8', text: '#2a5a74' };
+            }
+        }
+    }
+    function renderSharpSlant(text, role, styleIdx) {
+        const colors = getColorsByRole(role, styleIdx);
+        const horPad = getDynamicPadding(text);
+        const vert = getVerticalPadding(text);
+        const container = document.createElement('div');
+        container.style.cssText = `
+            background: ${colors.bg};
+            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
+            clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
+            border-radius: 0 20px 0 20px;
+            box-shadow: 6px 8px 0 ${colors.shadow};
+            display: inline-block;
+            max-width: 100%;
+            transform: rotate(-0.5deg);
+        `;
+        const inner = document.createElement('div');
+        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; line-height: 1.45; word-break: break-word;`;
+        inner.innerText = text;
+        container.appendChild(inner);
+        return container;
+    }
+    function renderBrokenShift(text, role, styleIdx) {
+        const colors = getColorsByRole(role, styleIdx);
+        const horPad = getDynamicPadding(text);
+        const vert = getVerticalPadding(text);
+        const container = document.createElement('div');
+        container.style.cssText = `
+            background: ${colors.bg};
+            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
+            clip-path: polygon(0% 0%, 85% 0%, 100% 30%, 90% 60%, 100% 100%, 10% 100%, 0% 70%);
+            box-shadow: 8px 8px 0 ${colors.shadow};
+            display: inline-block;
+            transform: rotate(0.4deg);
+        `;
+        const inner = document.createElement('div');
+        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; line-height: 1.45; word-break: break-word;`;
+        inner.innerText = text;
+        container.appendChild(inner);
+        return container;
+    }
+    function renderBeakSkew(text, role, styleIdx) {
+        const colors = getColorsByRole(role, styleIdx);
+        const horPad = getDynamicPadding(text);
+        const vert = getVerticalPadding(text);
+        const container = document.createElement('div');
+        container.style.cssText = `
+            background: ${colors.bg};
+            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
+            clip-path: polygon(0% 0%, 85% 0%, 100% 35%, 95% 70%, 100% 100%, 45% 100%, 0% 75%);
+            border-radius: 0 18px 18px 0;
+            box-shadow: -5px 8px 0 ${colors.shadow};
+            transform: rotate(-0.3deg) skewX(0.5deg);
+        `;
+        const inner = document.createElement('div');
+        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; word-break: break-word;`;
+        inner.innerText = text;
+        container.appendChild(inner);
+        return container;
+    }
+    function renderJaggedSkew(text, role, styleIdx) {
+        const colors = getColorsByRole(role, styleIdx);
+        const horPad = getDynamicPadding(text);
+        const vert = getVerticalPadding(text);
+        const container = document.createElement('div');
+        container.style.cssText = `
+            background: ${colors.bg};
+            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
+            clip-path: polygon(10% 0%, 90% 0%, 100% 25%, 95% 50%, 100% 75%, 85% 100%, 5% 100%, 0% 75%, 5% 50%, 0% 25%);
+            box-shadow: 8px 8px 0 ${colors.shadow};
+            transform: skewY(-0.2deg);
+        `;
+        const inner = document.createElement('div');
+        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; word-break: break-word;`;
+        inner.innerText = text;
+        container.appendChild(inner);
+        return container;
+    }
+    const renderers = [renderSharpSlant, renderBrokenShift, renderBeakSkew, renderJaggedSkew];
+
+    // ---------- ИГРОВАЯ ЛОГИКА ----------
+    let currentSituations = [];
+    let currentIndex = 0;
+    let totalScore = 0;
+    let remainingSeconds = 60;
+    let gameTimer = null;
+    let waitingSubmit = false;
+    let selectedSignsSet = new Set();
+    let gameActive = false;
+    let infiniteMode = false;
+    let gameFinished = false;
+    let currentAge = 16;
+
+    const chatLogEl = document.getElementById('chatLog');
+    const signsContainer = document.getElementById('signsContainer');
+    const signsPanel = document.getElementById('signsPanel');
+    const submitBtn = document.getElementById('submitBtn');
+    const totalScoreSpan = document.getElementById('totalScoreDisplay');
+    const timerSpan = document.getElementById('timerDisplay');
+    const feedbackDiv = document.getElementById('feedbackMsg');
+    const toastEl = document.getElementById('toast');
+    const exitBtn = document.getElementById('exitBtn');
+
+    function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.style.opacity = '1';
+        setTimeout(() => toastEl.style.opacity = '0', 1500);
+    }
+
+    function updateTimerUI() {
+        if (infiniteMode) timerSpan.textContent = "∞";
+        else timerSpan.textContent = Math.max(0, remainingSeconds);
+    }
+    function stopTimer() { if (gameTimer) { clearInterval(gameTimer); gameTimer = null; } }
+    function startTimer(seconds, isInf) {
+        stopTimer();
+        if (isInf) { infiniteMode = true; updateTimerUI(); return; }
+        infiniteMode = false;
+        remainingSeconds = seconds;
+        updateTimerUI();
+        gameTimer = setInterval(() => {
+            if (!gameActive || waitingSubmit || gameFinished) return;
+            if (remainingSeconds <= 0) {
+                clearInterval(gameTimer);
+                gameTimer = null;
+                gameActive = false;
+                gameFinished = true;
+                feedbackDiv.innerHTML = "время вышло. игра окончена.";
+                submitBtn.disabled = true;
+                document.querySelectorAll('.sign-btn').forEach(btn => btn.style.pointerEvents = 'none');
+                return;
+            }
+            remainingSeconds--;
+            updateTimerUI();
+        }, 1000);
+    }
+
+    function calculatePoints(correctCount, wrongCount, missedCount, totalCorrect) {
+        if (correctCount === 0) return 0;
+        const weight = 100 / totalCorrect;
+        let pts = correctCount * weight;
+        pts -= wrongCount * (weight * 0.7);
+        pts -= missedCount * (weight * 0.35);
+        return Math.max(0, Math.min(100, Math.round(pts)));
+    }
+
+    function getSelectedDetails() {
+        const selected = [];
+        for (let txt of selectedSignsSet) {
+            const btns = document.querySelectorAll('.sign-btn');
+            for (let btn of btns) {
+                if (btn.textContent === txt) {
+                    selected.push({ text: txt, type: btn.getAttribute('data-type') });
+                    break;
+                }
+            }
+        }
+        return selected;
+    }
+
+    function renderChat(messages) {
+        chatLogEl.innerHTML = '';
+        messages.forEach((msg, idx) => {
+            const role = msg.sender === 'scammer' ? 'scammer' : 'victim';
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            const avatarDiv = document.createElement('div');
+            avatarDiv.className = 'avatar';
+            const avatarIcon = document.createElement('div');
+            avatarIcon.className = 'avatar-icon';
+            avatarIcon.innerText = role === 'scammer' ? '🕵️' : '😟';
+            const avatarName = document.createElement('div');
+            avatarName.className = 'avatar-name';
+            avatarName.innerText = role === 'scammer' ? 'мошенник' : 'жертва';
+            avatarDiv.appendChild(avatarIcon);
+            avatarDiv.appendChild(avatarName);
+            const bubbleContainer = document.createElement('div');
+            bubbleContainer.className = 'bubble-container';
+            const styleIdx = (idx % 4);
+            const bubbleElem = renderers[styleIdx](msg.text, role, styleIdx);
+            bubbleContainer.appendChild(bubbleElem);
+            // время сообщения удалено
+            if (role === 'scammer') {
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(bubbleContainer);
+            } else {
+                messageDiv.appendChild(bubbleContainer);
+                messageDiv.appendChild(avatarDiv);
+            }
+            chatLogEl.appendChild(messageDiv);
+        });
+        chatLogEl.scrollTop = chatLogEl.scrollHeight;
+    }
+
+    function loadDialog() {
+        const dialog = currentSituations[currentIndex];
+        if (!dialog) return;
+        renderChat(dialog.messages);
+        const allSigns = [
+            ...dialog.correctSigns.map(t => ({ text: t, type: 'correct' })),
+            ...dialog.decoySigns.map(t => ({ text: t, type: 'decoy' }))
+        ];
+        for (let i = allSigns.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [allSigns[i], allSigns[j]] = [allSigns[j], allSigns[i]];
+        }
+        signsContainer.innerHTML = '';
+        selectedSignsSet.clear();
+        allSigns.forEach(sign => {
+            const btn = document.createElement('button');
+            btn.className = 'sign-btn';
+            btn.textContent = sign.text;
+            btn.setAttribute('data-type', sign.type);
+            btn.addEventListener('click', () => {
+                if (!gameActive || waitingSubmit || gameFinished) return;
+                if (btn.classList.contains('active')) {
+                    btn.classList.remove('active');
+                    selectedSignsSet.delete(sign.text);
+                } else {
+                    btn.classList.add('active');
+                    selectedSignsSet.add(sign.text);
+                }
+            });
+            signsContainer.appendChild(btn);
+        });
+    }
+
+    function showPauseScreen(earnedPoints, correctCount, totalCorrect) {
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.className = 'pause-overlay';
+            overlay.innerHTML = `
+                <div class="pause-stats">
+                    <div class="pause-points">+${earnedPoints}</div>
+                    <div class="pause-progress"><span>${correctCount}</span> / ${totalCorrect}</div>
+                    <div class="pause-counter-big" id="pauseCounter">5</div>
+                    <div class="pause-label">следующий диалог</div>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+            let counter = 5;
+            const counterSpan = overlay.querySelector('#pauseCounter');
+            const interval = setInterval(() => {
+                counter--;
+                if (counterSpan) counterSpan.textContent = counter;
+                if (counter <= 0) {
+                    clearInterval(interval);
+                    overlay.remove();
+                    resolve();
+                }
+            }, 1000);
+        });
+    }
+
+    async function processRoundAndPause() {
+        const dialog = currentSituations[currentIndex];
+        const selected = getSelectedDetails();
+        let correctCount = 0, wrongCount = 0;
+        for (let s of selected) {
+            if (s.type === 'correct') correctCount++;
+            else wrongCount++;
+        }
+        const totalCorrect = dialog.correctSigns.length;
+        const missedCount = totalCorrect - correctCount;
+        const earnedPoints = calculatePoints(correctCount, wrongCount, missedCount, totalCorrect);
+        
+        totalScore += earnedPoints;
+        totalScoreSpan.textContent = totalScore;
+        
+        await showPauseScreen(earnedPoints, correctCount, totalCorrect);
+        
+        if (currentIndex + 1 < currentSituations.length) currentIndex++;
+        else currentIndex = 0;
+        loadDialog();
+        waitingSubmit = false;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "ответить";
+        signsPanel.style.opacity = '1';
+        feedbackDiv.innerHTML = "выберите признаки";
+        gameActive = true;
+    }
+
+    function onSubmit() {
+        if (!gameActive) { feedbackDiv.innerHTML = "игра не начата"; return; }
+        if (waitingSubmit) return;
+        if (gameFinished) { feedbackDiv.innerHTML = "игра окончена"; return; }
+        if (!infiniteMode && remainingSeconds <= 0) {
+            feedbackDiv.innerHTML = "время вышло";
+            gameActive = false; gameFinished = true; submitBtn.disabled = true; return;
+        }
+        waitingSubmit = true;
+        submitBtn.disabled = true;
+        signsPanel.style.opacity = '0.4';
+        feedbackDiv.innerHTML = "⏳";
+        setTimeout(() => {
+            processRoundAndPause();
+        }, 80);
+    }
+
+    function launchGame(mode, age) {
+        currentAge = age;
+        currentSituations = getSituationsByAge(age);
+        currentIndex = 0;
+        totalScore = 0;
+        totalScoreSpan.textContent = "0";
+        selectedSignsSet.clear();
+        waitingSubmit = false;
+        gameFinished = false;
+        gameActive = true;
+        stopTimer();
+        
+        if (mode === '1min') { infiniteMode = false; remainingSeconds = 60; startTimer(60, false); }
+        else if (mode === '5min') { infiniteMode = false; remainingSeconds = 300; startTimer(300, false); }
+        else { infiniteMode = true; startTimer(0, true); }
+        
+        loadDialog();
+        submitBtn.disabled = false;
+        submitBtn.textContent = "ответить";
+        signsPanel.style.opacity = '1';
+        const category = getAgeCategory(age);
+        const categoryName = category === 'child' ? '12-15 лет' : (category === 'teen' ? '16-24 года' : '25+ лет');
+        feedbackDiv.innerHTML = infiniteMode ? `бесконечный режим · ${categoryName}` : `таймер активен · ${categoryName}`;
+    }
+
+    function exitToMenu() {
+        stopTimer();
+        gameActive = false;
+        gameFinished = false;
+        waitingSubmit = false;
+        if (gameTimer) clearInterval(gameTimer);
+        const existingModal = document.querySelector('.modal-overlay');
+        if (existingModal) existingModal.remove();
+        showWelcomeModal();
+    }
+
+    // СЛАЙДЕР ДЛЯ ВОЗРАСТА
+    function createAgeSlider(defaultAge = 16) {
+        const MIN = 12, MAX = 99;
+        const container = document.createElement('div');
+        container.className = 'carousel';
+        
+        const topPlaceholder = document.createElement('div');
+        topPlaceholder.className = 'age-item placeholder';
+        topPlaceholder.textContent = '•••';
+        container.appendChild(topPlaceholder);
+        
+        for (let age = MIN; age <= MAX; age++) {
+            const div = document.createElement('div');
+            div.className = 'age-item';
+            div.textContent = age;
+            div.setAttribute('data-age', age);
+            container.appendChild(div);
+        }
+        
+        const bottomPlaceholder = document.createElement('div');
+        bottomPlaceholder.className = 'age-item placeholder';
+        bottomPlaceholder.textContent = '•••';
+        container.appendChild(bottomPlaceholder);
+        
+        let isDragging = false;
+        let startY = 0, startScrollTop = 0;
+        
+        function getCurrentAge() {
+            const items = container.querySelectorAll('.age-item:not(.placeholder)');
+            const rect = container.getBoundingClientRect();
+            const centerY = rect.top + rect.height / 2;
+            let closest = null, minDist = Infinity;
+            items.forEach(item => {
+                const itemRect = item.getBoundingClientRect();
+                const itemCenter = itemRect.top + itemRect.height / 2;
+                const dist = Math.abs(centerY - itemCenter);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = item;
+                }
+            });
+            return closest ? parseInt(closest.getAttribute('data-age'), 10) : defaultAge;
+        }
+        
+        function updateSelection() {
+            const current = getCurrentAge();
+            const items = container.querySelectorAll('.age-item');
+            items.forEach(item => {
+                const age = parseInt(item.getAttribute('data-age'), 10);
+                if (!isNaN(age) && age === current) {
+                    item.classList.add('selected');
+                } else {
+                    item.classList.remove('selected');
+                }
+            });
+        }
+        
+        function snapToNearest() {
+            const items = container.querySelectorAll('.age-item:not(.placeholder)');
+            const rect = container.getBoundingClientRect();
+            const centerY = rect.top + rect.height / 2;
+            let closest = null, minDist = Infinity;
+            items.forEach(item => {
+                const itemRect = item.getBoundingClientRect();
+                const itemCenter = itemRect.top + itemRect.height / 2;
+                const dist = Math.abs(centerY - itemCenter);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = item;
+                }
+            });
+            if (closest) closest.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        function scrollToAge(age) {
+            const items = container.querySelectorAll('.age-item');
+            for (let item of items) {
+                if (parseInt(item.getAttribute('data-age'), 10) === age) {
+                    item.scrollIntoView({ block: 'center', behavior: 'auto' });
+                    break;
+                }
+            }
+            updateSelection();
+        }
+        
+        container.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            isDragging = true;
+            startY = e.clientY;
+            startScrollTop = container.scrollTop;
+            container.style.scrollSnapType = 'none';
+        });
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const delta = e.clientY - startY;
+            container.scrollTop = startScrollTop - delta;
+            updateSelection();
+        });
+        window.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+            isDragging = false;
+            container.style.scrollSnapType = 'y mandatory';
+            snapToNearest();
+        });
+        
+        container.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                isDragging = true;
+                startY = e.touches[0].clientY;
+                startScrollTop = container.scrollTop;
+                container.style.scrollSnapType = 'none';
+            }
+        });
+        container.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const delta = e.touches[0].clientY - startY;
+            container.scrollTop = startScrollTop - delta;
+            updateSelection();
+        });
+        container.addEventListener('touchend', () => {
+            isDragging = false;
+            container.style.scrollSnapType = 'y mandatory';
+            snapToNearest();
+        });
+        container.addEventListener('scroll', () => updateSelection());
+        container.addEventListener('click', (e) => {
+            let target = e.target;
+            if (target.classList?.contains('age-item') && !target.classList.contains('placeholder')) {
+                const age = parseInt(target.getAttribute('data-age'), 10);
+                if (!isNaN(age)) scrollToAge(age);
+            }
+        });
+        
+        scrollToAge(defaultAge);
+        return { container, getCurrentAge };
+    }
+
+    function showWelcomeModal() {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML = `
+            <div class="modal">
+                <h2>антимошенник</h2>
+                <div class="rules">
+                    <p>📌 выберите признаки обмана в диалоге</p>
+                    <p>🎯 максимум за раунд <strong>100 очков</strong></p>
+                    <p>⏱️ после ответа — пауза 5 секунд</p>
+                    <p>❌ ложные признаки и пропуски снижают счёт</p>
+                </div>
+                <div class="age-row">
+                    <span class="age-label">🎂 Ваш возраст</span>
+                    <div id="ageSliderContainer"></div>
+                </div>
+                <div class="time-options">
+                    <button data-time="1min" class="time-btn">1 минута</button>
+                    <button data-time="5min" class="time-btn">5 минут</button>
+                    <button data-time="infinite" class="time-btn">∞ бесконечно</button>
+                </div>
+                <button class="start-btn" id="modalStartBtn">начать игру</button>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        
+        const sliderContainer = overlay.querySelector('#ageSliderContainer');
+        const { container: slider, getCurrentAge } = createAgeSlider(16);
+        sliderContainer.appendChild(slider);
+        
+        let chosenTime = '1min';
+        const btns = overlay.querySelectorAll('.time-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active-mode'));
+                btn.classList.add('active-mode');
+                chosenTime = btn.getAttribute('data-time');
+            });
+        });
+        btns[0].classList.add('active-mode');
+        
+        overlay.querySelector('#modalStartBtn').addEventListener('click', () => {
+            const age = getCurrentAge();
+            overlay.remove();
+            launchGame(chosenTime, age);
+        });
+    }
+
+    submitBtn.addEventListener('click', onSubmit);
+    exitBtn.addEventListener('click', exitToMenu);
+    showWelcomeModal();
+</script>
+</body>
+</html>
