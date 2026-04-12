@@ -101,9 +101,25 @@
             transition: 0.2s;
             font-family: inherit;
         }
-        .exit-btn:hover {
-            background: #1e4a6e;
-            transform: scale(1.02);
+        /* Hover только для устройств с мышкой */
+        @media (hover: hover) {
+            .exit-btn:hover {
+                background: #1e4a6e;
+                transform: scale(1.02);
+            }
+            .time-btn:hover {
+                background: #2c5f8a;
+                color: white;
+                border-color: #2c5f8a;
+            }
+            .start-btn:hover {
+                background: #1e4a6e;
+            }
+            .sign-btn:hover {
+                background: #1e4a6e;
+                color: white;
+                border-color: #1e4a6e;
+            }
         }
 
         .chat-container {
@@ -156,8 +172,10 @@
             transition: transform 0.15s ease;
             cursor: text;
         }
-        .bubble-container:hover {
-            transform: scale(1.01);
+        @media (hover: hover) {
+            .bubble-container:hover {
+                transform: scale(1.01);
+            }
         }
         @media (max-width: 700px) {
             .bubble-container { max-width: 92%; }
@@ -200,7 +218,7 @@
 
         .signs-panel {
             flex-shrink: 0;
-            padding: 0.5rem 0 0.3rem 0;
+            padding: 0.5rem 0 1rem 0;
             transition: opacity 0.2s;
         }
         .signs-title {
@@ -245,16 +263,12 @@
             transition: 0.2s;
             font-family: inherit;
             backdrop-filter: blur(2px);
+            -webkit-tap-highlight-color: transparent;
         }
         .sign-btn.active {
             background: #2c5f8a;
             color: white;
             border-color: #2c5f8a;
-        }
-        .sign-btn:hover {
-            background: #1e4a6e;
-            color: white;
-            border-color: #1e4a6e;
         }
 
         .submit-btn {
@@ -271,6 +285,7 @@
             margin: 0.3rem 0 0.2rem 0;
             font-family: inherit;
             flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
         }
         .submit-btn:active {
             transform: scale(0.98);
@@ -445,18 +460,15 @@
             overflow-x: hidden;
             scroll-snap-type: y mandatory;
             scroll-behavior: smooth;
-            cursor: grab;
             background: white;
             border-radius: 30px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             scrollbar-width: none;
             -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
         }
         .carousel::-webkit-scrollbar {
             display: none;
-        }
-        .carousel:active {
-            cursor: grabbing;
         }
         .age-item {
             height: 30px;
@@ -469,6 +481,7 @@
             color: #aaa;
             background: white;
             transition: all 0.1s ease;
+            pointer-events: none;
         }
         .age-item.selected {
             font-size: 24px;
@@ -497,11 +510,7 @@
             cursor: pointer;
             color: #2c5f8a;
             transition: 0.2s;
-        }
-        .time-btn:hover {
-            background: #2c5f8a;
-            color: white;
-            border-color: #2c5f8a;
+            -webkit-tap-highlight-color: transparent;
         }
         .time-btn.active-mode {
             background: #2c5f8a;
@@ -520,9 +529,7 @@
             font-size: 0.95rem;
             margin-top: 0.5rem;
             transition: 0.2s;
-        }
-        .start-btn:hover {
-            background: #1e4a6e;
+            -webkit-tap-highlight-color: transparent;
         }
         .toast-msg {
             position: fixed;
@@ -923,7 +930,7 @@
             overlay.className = 'pause-overlay';
             overlay.innerHTML = `
                 <div class="pause-stats">
-                    <div class="pause-points">+${earnedPoints}</div>
+                    <div class="pause-points">+ ${earnedPoints}</div>
                     <div class="pause-progress"><span>${correctCount}</span> / ${totalCorrect}</div>
                     <div class="pause-counter-big" id="pauseCounter">5</div>
                     <div class="pause-label">следующий диалог</div>
@@ -1079,143 +1086,144 @@
     }
 
     function createAgeSlider(defaultAge = 16) {
-        const MIN = 12, MAX = 99;
-        const container = document.createElement('div');
-        container.className = 'carousel';
-        
-        const topPlaceholder = document.createElement('div');
-        topPlaceholder.className = 'age-item placeholder';
-        topPlaceholder.textContent = '•••';
-        container.appendChild(topPlaceholder);
-        
-        for (let age = MIN; age <= MAX; age++) {
-            const div = document.createElement('div');
-            div.className = 'age-item';
-            div.textContent = age;
-            div.setAttribute('data-age', age);
-            container.appendChild(div);
-        }
-        
-        const bottomPlaceholder = document.createElement('div');
-        bottomPlaceholder.className = 'age-item placeholder';
-        bottomPlaceholder.textContent = '•••';
-        container.appendChild(bottomPlaceholder);
-        
-        let isDragging = false;
-        let startY = 0, startScrollTop = 0;
-        
-        function getCurrentAge() {
-            const items = container.querySelectorAll('.age-item:not(.placeholder)');
-            const rect = container.getBoundingClientRect();
-            const centerY = rect.top + rect.height / 2;
-            let closest = null, minDist = Infinity;
-            items.forEach(item => {
-                const itemRect = item.getBoundingClientRect();
-                const itemCenter = itemRect.top + itemRect.height / 2;
-                const dist = Math.abs(centerY - itemCenter);
-                if (dist < minDist) {
-                    minDist = dist;
-                    closest = item;
-                }
-            });
-            return closest ? parseInt(closest.getAttribute('data-age'), 10) : defaultAge;
-        }
-        
-        function updateSelection() {
-            const current = getCurrentAge();
-            const items = container.querySelectorAll('.age-item');
-            items.forEach(item => {
-                const age = parseInt(item.getAttribute('data-age'), 10);
-                if (!isNaN(age) && age === current) {
-                    item.classList.add('selected');
-                } else {
-                    item.classList.remove('selected');
-                }
-            });
-        }
-        
-        function snapToNearest() {
-            const items = container.querySelectorAll('.age-item:not(.placeholder)');
-            const rect = container.getBoundingClientRect();
-            const centerY = rect.top + rect.height / 2;
-            let closest = null, minDist = Infinity;
-            items.forEach(item => {
-                const itemRect = item.getBoundingClientRect();
-                const itemCenter = itemRect.top + itemRect.height / 2;
-                const dist = Math.abs(centerY - itemCenter);
-                if (dist < minDist) {
-                    minDist = dist;
-                    closest = item;
-                }
-            });
-            if (closest) closest.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        
-        function scrollToAge(age) {
-            const items = container.querySelectorAll('.age-item');
-            for (let item of items) {
-                if (parseInt(item.getAttribute('data-age'), 10) === age) {
-                    item.scrollIntoView({ block: 'center', behavior: 'auto' });
-                    break;
-                }
-            }
-            updateSelection();
-        }
-        
-        container.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            isDragging = true;
-            startY = e.clientY;
-            startScrollTop = container.scrollTop;
-            container.style.scrollSnapType = 'none';
-        });
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            const delta = e.clientY - startY;
-            container.scrollTop = startScrollTop - delta;
-            updateSelection();
-        });
-        window.addEventListener('mouseup', () => {
-            if (!isDragging) return;
-            isDragging = false;
-            container.style.scrollSnapType = 'y mandatory';
-            snapToNearest();
-        });
-        
-        container.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                e.preventDefault();
-                isDragging = true;
-                startY = e.touches[0].clientY;
-                startScrollTop = container.scrollTop;
-                container.style.scrollSnapType = 'none';
-            }
-        });
-        container.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            const delta = e.touches[0].clientY - startY;
-            container.scrollTop = startScrollTop - delta;
-            updateSelection();
-        });
-        container.addEventListener('touchend', () => {
-            isDragging = false;
-            container.style.scrollSnapType = 'y mandatory';
-            snapToNearest();
-        });
-        container.addEventListener('scroll', () => updateSelection());
-        container.addEventListener('click', (e) => {
-            let target = e.target;
-            if (target.classList?.contains('age-item') && !target.classList.contains('placeholder')) {
-                const age = parseInt(target.getAttribute('data-age'), 10);
-                if (!isNaN(age)) scrollToAge(age);
-            }
-        });
-        
-        scrollToAge(defaultAge);
-        return { container, getCurrentAge };
-    }
+      const MIN = 12, MAX = 99;
+      const container = document.createElement('div');
+      container.className = 'carousel';
+      
+      const topPlaceholder = document.createElement('div');
+      topPlaceholder.className = 'age-item placeholder';
+      topPlaceholder.textContent = '•••';
+      container.appendChild(topPlaceholder);
+      
+      for (let age = MIN; age <= MAX; age++) {
+          const div = document.createElement('div');
+          div.className = 'age-item';
+          div.textContent = age;
+          div.setAttribute('data-age', age);
+          container.appendChild(div);
+      }
+      
+      const bottomPlaceholder = document.createElement('div');
+      bottomPlaceholder.className = 'age-item placeholder';
+      bottomPlaceholder.textContent = '•••';
+      container.appendChild(bottomPlaceholder);
+      
+      let isDragging = false;
+      let startY = 0;
+      let startScrollTop = 0;
+      
+      function getCurrentAge() {
+          const items = container.querySelectorAll('.age-item:not(.placeholder)');
+          const rect = container.getBoundingClientRect();
+          const centerY = rect.top + rect.height / 2;
+          let closest = null, minDist = Infinity;
+          items.forEach(item => {
+              const itemRect = item.getBoundingClientRect();
+              const itemCenter = itemRect.top + itemRect.height / 2;
+              const dist = Math.abs(centerY - itemCenter);
+              if (dist < minDist) {
+                  minDist = dist;
+                  closest = item;
+              }
+          });
+          return closest ? parseInt(closest.getAttribute('data-age'), 10) : defaultAge;
+      }
+      
+      function updateSelection() {
+          const current = getCurrentAge();
+          const items = container.querySelectorAll('.age-item');
+          items.forEach(item => {
+              const age = parseInt(item.getAttribute('data-age'), 10);
+              if (!isNaN(age) && age === current) {
+                  item.classList.add('selected');
+              } else {
+                  item.classList.remove('selected');
+              }
+          });
+      }
+      
+      function snapToNearest() {
+          const items = container.querySelectorAll('.age-item:not(.placeholder)');
+          const rect = container.getBoundingClientRect();
+          const centerY = rect.top + rect.height / 2;
+          let closest = null, minDist = Infinity;
+          items.forEach(item => {
+              const itemRect = item.getBoundingClientRect();
+              const itemCenter = itemRect.top + itemRect.height / 2;
+              const dist = Math.abs(centerY - itemCenter);
+              if (dist < minDist) {
+                  minDist = dist;
+                  closest = item;
+              }
+          });
+          if (closest) closest.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      
+      function scrollToAge(age) {
+          const items = container.querySelectorAll('.age-item');
+          for (let item of items) {
+              if (parseInt(item.getAttribute('data-age'), 10) === age) {
+                  item.scrollIntoView({ block: 'center', behavior: 'auto' });
+                  break;
+              }
+          }
+          updateSelection();
+      }
+      
+      // Обработчики для мыши (перетаскивание левой кнопкой)
+      container.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          isDragging = true;
+          startY = e.clientY;
+          startScrollTop = container.scrollTop;
+          container.style.scrollSnapType = 'none';
+          container.style.cursor = 'grabbing';
+      });
+      
+      window.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          e.preventDefault();
+          const delta = e.clientY - startY;
+          let newScrollTop = startScrollTop - delta;
+          newScrollTop = Math.max(0, Math.min(newScrollTop, container.scrollHeight - container.clientHeight));
+          container.scrollTop = newScrollTop;
+          updateSelection();
+      });
+      
+      window.addEventListener('mouseup', () => {
+          if (!isDragging) return;
+          isDragging = false;
+          container.style.scrollSnapType = 'y mandatory';
+          container.style.cursor = 'grab';
+          snapToNearest();
+      });
+      
+      // Для тач-устройств — используем НАТИВНЫЙ скролл, без кастомной обработки
+      // Только обновляем выделение при скролле
+      container.addEventListener('scroll', () => {
+          updateSelection();
+      });
+      
+      // Колесико мыши
+      container.addEventListener('wheel', () => {
+          setTimeout(updateSelection, 20);
+      });
+      
+      // Клик по элементу для быстрого выбора
+      container.addEventListener('click', (e) => {
+          let target = e.target;
+          if (target.classList?.contains('age-item') && !target.classList.contains('placeholder')) {
+              const age = parseInt(target.getAttribute('data-age'), 10);
+              if (!isNaN(age)) scrollToAge(age);
+          }
+      });
+      
+      // Начальная установка курсора
+      container.style.cursor = 'grab';
+      scrollToAge(defaultAge);
+      
+      return { container, getCurrentAge };
+  }
 
     function showWelcomeModal() {
         const overlay = document.createElement('div');
