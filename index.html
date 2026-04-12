@@ -27,12 +27,21 @@
             cursor: text;
         }
 
+        /* Исправление для iOS — используем динамическую высоту */
+        html, body {
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
         body {
             background: #eef2f5;
             font-family: 'Inter', 'Space Grotesk', sans-serif;
             color: #1e2a3a;
-            height: 100vh;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
         }
@@ -44,10 +53,15 @@
             max-width: 850px;
             width: 100%;
             margin: 0 auto;
-            padding: 0.8rem 1rem 0.6rem 1rem;
+            padding: env(safe-area-inset-top) 1rem env(safe-area-inset-bottom) 1rem;
             overflow: hidden;
             height: 100%;
             min-height: 0;
+        }
+
+        /* JavaScript добавит класс для корректировки высоты на iOS */
+        .ios-fix {
+            height: 100% !important;
         }
 
         .game-header {
@@ -129,6 +143,7 @@
             overflow-x: hidden;
             padding: 0.2rem 0 0.5rem 0;
             margin-bottom: 0.2rem;
+            -webkit-overflow-scrolling: touch;
         }
         .chat-log {
             display: flex;
@@ -562,7 +577,7 @@
     </style>
 </head>
 <body class="no-select">
-<div class="game-container">
+<div class="game-container" id="gameContainer">
     <div class="game-header">
         <div class="score-area">
             <span class="score-value" id="totalScoreDisplay">0</span>
@@ -587,11 +602,26 @@
     </div>
 
     <button id="submitBtn" class="submit-btn">ответить</button>
-    <div id="feedbackMsg" class="feedback" style="display: none"></div>
+    <div id="feedbackMsg" class="feedback"></div>
 </div>
 <div id="toast" class="toast-msg"></div>
 
 <script>
+    // iOS фикс для правильной высоты
+    function fixIOSHeight() {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+        
+        const gameContainer = document.getElementById('gameContainer');
+        if (gameContainer) {
+            gameContainer.style.height = `${window.innerHeight}px`;
+        }
+    }
+    
+    window.addEventListener('resize', fixIOSHeight);
+    window.addEventListener('orientationchange', fixIOSHeight);
+    fixIOSHeight();
+
     const SITUATIONS_BY_AGE = {
         child: [
             {
@@ -1170,7 +1200,6 @@
             updateSelection();
         }
         
-        // Обработчики для мыши (перетаскивание левой кнопкой)
         container.addEventListener('mousedown', (e) => {
             e.preventDefault();
             isDragging = true;
@@ -1198,17 +1227,14 @@
             snapToNearest();
         });
         
-        // Для тач-устройств — нативный скролл
         container.addEventListener('scroll', () => {
             updateSelection();
         });
         
-        // Колесико мыши
         container.addEventListener('wheel', () => {
             setTimeout(updateSelection, 20);
         });
         
-        // Клик по элементу для быстрого выбора
         container.addEventListener('click', (e) => {
             let target = e.target;
             if (target.classList?.contains('age-item') && !target.classList.contains('placeholder')) {
