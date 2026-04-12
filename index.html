@@ -12,7 +12,6 @@
             box-sizing: border-box;
         }
 
-        /* глобальный запрет выделения */
         .no-select, .no-select * {
             user-select: none;
             -webkit-user-select: none;
@@ -20,7 +19,6 @@
             -ms-user-select: none;
         }
 
-        /* разрешаем выделение только в сообщениях */
         .bubble-container, .bubble-container * {
             user-select: text;
             -webkit-user-select: text;
@@ -122,6 +120,24 @@
             gap: 1rem;
             padding-bottom: 0.3rem;
             width: 100%;
+            transition: opacity 0.3s ease-out;
+        }
+        .chat-log.fade-out {
+            opacity: 0;
+        }
+        .chat-log.fade-in {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message {
@@ -199,7 +215,24 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.6rem;
+            transition: opacity 0.3s ease-out;
         }
+        .signs-grid.fade-out {
+            opacity: 0;
+        }
+        .signs-grid.fade-in {
+            animation: fadeIn 0.35s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         .sign-btn {
             background: rgba(255, 255, 245, 0.7);
             border: 1px solid #dce5ec;
@@ -260,23 +293,36 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.55);
-            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0);
+            backdrop-filter: blur(0px);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            animation: fadePause 0.2s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            visibility: hidden;
         }
-        @keyframes fadePause {
-            from { opacity: 0; backdrop-filter: blur(0px); }
-            to { opacity: 1; backdrop-filter: blur(10px); }
+
+        .pause-overlay.active {
+            background: rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(10px);
+            opacity: 1;
+            visibility: visible;
         }
+
         .pause-stats {
             text-align: center;
             background: transparent;
+            transform: scale(0.8);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        .pause-overlay.active .pause-stats {
+            transform: scale(1);
+        }
+
         .pause-points {
             font-size: 4rem;
             font-weight: 800;
@@ -320,13 +366,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(100, 100, 110, 0.6);
-            backdrop-filter: blur(8px);
+            background: rgba(100, 100, 110, 0);
+            backdrop-filter: blur(0px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1100;
+            transition: all 0.3s ease-out;
+            opacity: 0;
+            visibility: hidden;
         }
+
+        .modal-overlay.active {
+            background: rgba(100, 100, 110, 0.6);
+            backdrop-filter: blur(8px);
+            opacity: 1;
+            visibility: visible;
+        }
+
         .modal {
             background: #f5f7fa;
             border-radius: 2rem;
@@ -339,7 +396,14 @@
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-out;
         }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
         .modal h2 {
             font-size: 1.5rem;
             margin-bottom: 0.8rem;
@@ -520,9 +584,8 @@
 <div id="toast" class="toast-msg"></div>
 
 <script>
-    // ========== СИТУАЦИИ ПО ВОЗРАСТНЫМ КАТЕГОРИЯМ ==========
     const SITUATIONS_BY_AGE = {
-        child: [  // 12-15 лет
+        child: [
             {
                 messages: [
                     { sender: "scammer", text: "Привет! Ты выиграл 5000 рублей в нашем конкурсе! Для получения приза нужно отправить код из СМС." },
@@ -543,7 +606,7 @@
                 decoySigns: ["Просьба перевести деньги", "Запрос CVV кода", "Оплата налога"]
             }
         ],
-        teen: [  // 16-24 года
+        teen: [
             {
                 messages: [
                     { sender: "scammer", text: "Привет! Это твой друг, я забыл пароль от карты. Дай код из СМС, чтобы оплатить учёбу." },
@@ -563,7 +626,7 @@
                 decoySigns: ["Запрос кода из СМС от оператора", "Перевод на резервный счёт", "Оплата выигрыша"]
             }
         ],
-        adult: [  // 25-99 лет
+        adult: [
             {
                 messages: [
                     { sender: "scammer", text: "Здравствуйте, это служба безопасности банка. На вашу карту пытаются оформить кредит на 500 000₽." },
@@ -598,7 +661,6 @@
         return SITUATIONS_BY_AGE[category];
     }
 
-    // ---------- СТИЛИ СООБЩЕНИЙ ----------
     function getDynamicPadding(text) {
         const len = text.length;
         if (len > 100) return 5.0;
@@ -710,7 +772,6 @@
     }
     const renderers = [renderSharpSlant, renderBrokenShift, renderBeakSkew, renderJaggedSkew];
 
-    // ---------- ИГРОВАЯ ЛОГИКА ----------
     let currentSituations = [];
     let currentIndex = 0;
     let totalScore = 0;
@@ -721,7 +782,7 @@
     let gameActive = false;
     let infiniteMode = false;
     let gameFinished = false;
-    let currentAge = 16;
+    let isTransitioning = false;
 
     const chatLogEl = document.getElementById('chatLog');
     const signsContainer = document.getElementById('signsContainer');
@@ -751,7 +812,7 @@
         remainingSeconds = seconds;
         updateTimerUI();
         gameTimer = setInterval(() => {
-            if (!gameActive || waitingSubmit || gameFinished) return;
+            if (!gameActive || waitingSubmit || gameFinished || isTransitioning) return;
             if (remainingSeconds <= 0) {
                 clearInterval(gameTimer);
                 gameTimer = null;
@@ -811,7 +872,6 @@
             const styleIdx = (idx % 4);
             const bubbleElem = renderers[styleIdx](msg.text, role, styleIdx);
             bubbleContainer.appendChild(bubbleElem);
-            // время сообщения удалено
             if (role === 'scammer') {
                 messageDiv.appendChild(avatarDiv);
                 messageDiv.appendChild(bubbleContainer);
@@ -844,7 +904,7 @@
             btn.textContent = sign.text;
             btn.setAttribute('data-type', sign.type);
             btn.addEventListener('click', () => {
-                if (!gameActive || waitingSubmit || gameFinished) return;
+                if (!gameActive || waitingSubmit || gameFinished || isTransitioning) return;
                 if (btn.classList.contains('active')) {
                     btn.classList.remove('active');
                     selectedSignsSet.delete(sign.text);
@@ -870,6 +930,11 @@
                 </div>
             `;
             document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                overlay.classList.add('active');
+            }, 10);
+            
             let counter = 5;
             const counterSpan = overlay.querySelector('#pauseCounter');
             const interval = setInterval(() => {
@@ -877,11 +942,41 @@
                 if (counterSpan) counterSpan.textContent = counter;
                 if (counter <= 0) {
                     clearInterval(interval);
-                    overlay.remove();
-                    resolve();
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        overlay.remove();
+                        resolve();
+                    }, 500);
                 }
             }, 1000);
         });
+    }
+
+    async function transitionToNextDialog() {
+        isTransitioning = true;
+        
+        chatLogEl.classList.add('fade-out');
+        signsContainer.classList.add('fade-out');
+        
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        if (currentIndex + 1 < currentSituations.length) currentIndex++;
+        else currentIndex = 0;
+        
+        loadDialog();
+        
+        chatLogEl.classList.remove('fade-out');
+        signsContainer.classList.remove('fade-out');
+        
+        chatLogEl.classList.add('fade-in');
+        signsContainer.classList.add('fade-in');
+        
+        setTimeout(() => {
+            chatLogEl.classList.remove('fade-in');
+            signsContainer.classList.remove('fade-in');
+        }, 400);
+        
+        isTransitioning = false;
     }
 
     async function processRoundAndPause() {
@@ -901,9 +996,8 @@
         
         await showPauseScreen(earnedPoints, correctCount, totalCorrect);
         
-        if (currentIndex + 1 < currentSituations.length) currentIndex++;
-        else currentIndex = 0;
-        loadDialog();
+        await transitionToNextDialog();
+        
         waitingSubmit = false;
         submitBtn.disabled = false;
         submitBtn.textContent = "ответить";
@@ -916,6 +1010,7 @@
         if (!gameActive) { feedbackDiv.innerHTML = "игра не начата"; return; }
         if (waitingSubmit) return;
         if (gameFinished) { feedbackDiv.innerHTML = "игра окончена"; return; }
+        if (isTransitioning) { feedbackDiv.innerHTML = "подождите, диалог загружается..."; return; }
         if (!infiniteMode && remainingSeconds <= 0) {
             feedbackDiv.innerHTML = "время вышло";
             gameActive = false; gameFinished = true; submitBtn.disabled = true; return;
@@ -939,13 +1034,23 @@
         waitingSubmit = false;
         gameFinished = false;
         gameActive = true;
+        isTransitioning = false;
         stopTimer();
         
         if (mode === '1min') { infiniteMode = false; remainingSeconds = 60; startTimer(60, false); }
         else if (mode === '5min') { infiniteMode = false; remainingSeconds = 300; startTimer(300, false); }
         else { infiniteMode = true; startTimer(0, true); }
         
+        chatLogEl.classList.add('fade-in');
+        signsContainer.classList.add('fade-in');
+        
         loadDialog();
+        
+        setTimeout(() => {
+            chatLogEl.classList.remove('fade-in');
+            signsContainer.classList.remove('fade-in');
+        }, 400);
+        
         submitBtn.disabled = false;
         submitBtn.textContent = "ответить";
         signsPanel.style.opacity = '1';
@@ -959,13 +1064,20 @@
         gameActive = false;
         gameFinished = false;
         waitingSubmit = false;
+        isTransitioning = false;
         if (gameTimer) clearInterval(gameTimer);
         const existingModal = document.querySelector('.modal-overlay');
-        if (existingModal) existingModal.remove();
-        showWelcomeModal();
+        if (existingModal) {
+            existingModal.classList.remove('active');
+            setTimeout(() => {
+                existingModal.remove();
+                showWelcomeModal();
+            }, 300);
+        } else {
+            showWelcomeModal();
+        }
     }
 
-    // СЛАЙДЕР ДЛЯ ВОЗРАСТА
     function createAgeSlider(defaultAge = 16) {
         const MIN = 12, MAX = 99;
         const container = document.createElement('div');
@@ -1131,6 +1243,10 @@
         `;
         document.body.appendChild(overlay);
         
+        setTimeout(() => {
+            overlay.classList.add('active');
+        }, 10);
+        
         const sliderContainer = overlay.querySelector('#ageSliderContainer');
         const { container: slider, getCurrentAge } = createAgeSlider(16);
         sliderContainer.appendChild(slider);
@@ -1148,8 +1264,11 @@
         
         overlay.querySelector('#modalStartBtn').addEventListener('click', () => {
             const age = getCurrentAge();
-            overlay.remove();
-            launchGame(chosenTime, age);
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.remove();
+                launchGame(chosenTime, age);
+            }, 300);
         });
     }
 
