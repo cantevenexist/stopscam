@@ -1165,12 +1165,48 @@
     function showHelpModal() { const existingModal = document.querySelector('.help-modal-overlay'); if (existingModal) { existingModal.classList.remove('active'); setTimeout(() => existingModal.remove(), 300); return; } const overlay = document.createElement('div'); overlay.className = 'help-modal-overlay'; overlay.innerHTML = `<div class="help-modal"><h2>📚 полезные памятки</h2>
         <div class="help-links">
             <a href="https://cantevenexist.github.io/stopscam/guides/Как%20защитить%20ребенка%20от%20мошенников.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
-                <span class="help-link-emoji">👶</span>
+                <span class="help-link-emoji">👶🔒</span>
                 <div class="help-link-text"><div>Как защитить ребёнка от мошенников</div></div>
             </a>
+
             <a href="https://cantevenexist.github.io/stopscam/guides/Памятка%20по%20противодействию%20мошенничеству.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
-                <span class="help-link-emoji">🛡️</span>
+                <span class="help-link-emoji">🛡️📋</span>
                 <div class="help-link-text"><div>Памятка по противодействию мошенничеству</div></div>
+            </a>
+
+            <a href="https://cantevenexist.github.io/stopscam/guides/Взломали%20Госуслуги.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
+                <span class="help-link-emoji">🏛️⚠️</span>
+                <div class="help-link-text"><div>Взломали Госуслуги</div></div>
+            </a>
+
+            <a href="https://cantevenexist.github.io/stopscam/guides/Взломали%20социальные%20сети.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
+                <span class="help-link-emoji">📱🔓</span>
+                <div class="help-link-text"><div>Взломали социальные сети</div></div>
+            </a>
+
+            <a href="https://cantevenexist.github.io/stopscam/guides/Оформили%20кредит%20или%20микрозайм.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
+                <span class="help-link-emoji">💳📄</span>
+                <div class="help-link-text"><div>Оформили кредит или микрозайм</div></div>
+            </a>
+
+            <a href="https://cantevenexist.github.io/stopscam/guides/Переведены%20деньги%20без%20согласия.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
+                <span class="help-link-emoji">💰❌</span>
+                <div class="help-link-text"><div>Переведены деньги без согласия</div></div>
+            </a>
+
+            <a href="https://cantevenexist.github.io/stopscam/guides/Передал%20наличные%20денежные%20средства%20и%20ценности%20мошенникам.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
+                <span class="help-link-emoji">💵🎁</span>
+                <div class="help-link-text"><div>Передал наличные денежные средства и ценности мошенникам</div></div>
+            </a>
+
+            <a href="https://cantevenexist.github.io/stopscam/guides/Сам%20перевел%20деньги%20мошенникам.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
+                <span class="help-link-emoji">💸😔</span>
+                <div class="help-link-text"><div>Сам перевел деньги мошенникам</div></div>
+            </a>
+
+            <a href="https://cantevenexist.github.io/stopscam/guides/Шантаж%20распространения%20конфиденциальных%20данных.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
+                <span class="help-link-emoji">🤐📸</span>
+                <div class="help-link-text"><div>Шантаж распространения конфиденциальных данных</div></div>
             </a>
         </div><button class="back-to-game-btn">← вернуться к игре</button></div>`; document.body.appendChild(overlay); setTimeout(() => overlay.classList.add('active'), 10); const backBtn = overlay.querySelector('.back-to-game-btn'); backBtn.addEventListener('click', () => { overlay.classList.remove('active'); setTimeout(() => overlay.remove(), 300); }); }
 
