@@ -27,7 +27,6 @@
             cursor: text;
         }
 
-        /* Исправление для iOS — используем динамическую высоту */
         html, body {
             height: 100%;
             position: fixed;
@@ -57,11 +56,6 @@
             overflow: hidden;
             height: 100%;
             min-height: 0;
-        }
-
-        /* JavaScript добавит класс для корректировки высоты на iOS */
-        .ios-fix {
-            height: 100% !important;
         }
 
         .game-header {
@@ -109,7 +103,6 @@
             border: none;
             font-size: 0.9rem;
             font-weight: 600;
-            cursor: pointer;
             color: white;
             padding: 0.3rem 0.8rem;
             border-radius: 2rem;
@@ -117,27 +110,14 @@
             font-family: inherit;
         }
         @media (hover: hover) {
-            .exit-btn:hover {
-                background: #1e4a6e;
-                transform: scale(1.02);
-            }
-            .time-btn:hover {
-                background: #2c5f8a;
-                color: white;
-                border-color: #2c5f8a;
-            }
-            .start-btn:hover {
-                background: #1e4a6e;
-            }
-            .sign-btn:hover {
-                background: #1e4a6e;
-                color: white;
-                border-color: #1e4a6e;
-            }
-            .help-link:hover {
-                background: #eef2f8;
-                transform: translateX(5px);
-            }
+            .exit-btn:hover { background: #1e4a6e; }
+            .time-btn:hover { background: #2c5f8a; color: white; border-color: #2c5f8a; }
+            .start-btn:hover { background: #1e4a6e; }
+            .guides-btn:hover { background: #1e8649; }
+            .sign-btn:hover { background: #1e4a6e; color: white; border-color: #1e4a6e; }
+            .help-link:hover { background: #eef2f8; transform: translateX(5px); }
+            .back-to-game-btn:hover { background: #1e4a6e; }
+            .submit-btn:hover { background: #1e4a6e; }
         }
 
         .chat-container {
@@ -157,48 +137,26 @@
             width: 100%;
             transition: opacity 0.3s ease-out;
         }
-        .chat-log.fade-out {
-            opacity: 0;
-        }
-        .chat-log.fade-in {
-            animation: fadeInUp 0.4s ease-out forwards;
-        }
-
+        .chat-log.fade-out { opacity: 0; }
+        .chat-log.fade-in { animation: fadeInUp 0.4s ease-out forwards; }
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .message {
             display: flex;
             width: 100%;
         }
-        .message.scammer {
-            justify-content: flex-start;
-        }
-        .message.victim {
-            justify-content: flex-end;
-        }
+        .message.scammer { justify-content: flex-start; }
+        .message.victim { justify-content: flex-end; }
 
         .bubble-container {
             max-width: 85%;
             transition: transform 0.15s ease;
             cursor: text;
         }
-        @media (hover: hover) {
-            .bubble-container:hover {
-                transform: scale(1.01);
-            }
-        }
-        @media (max-width: 700px) {
-            .bubble-container { max-width: 92%; }
-        }
+        @media (max-width: 700px) { .bubble-container { max-width: 92%; } }
 
         .avatar {
             display: flex;
@@ -207,15 +165,8 @@
             margin: 0 0.5rem;
             cursor: default;
         }
-        .scammer .avatar {
-            margin-right: 0.5rem;
-            margin-left: 0;
-        }
-        .victim .avatar {
-            margin-left: 0.5rem;
-            margin-right: 0;
-            order: 2;
-        }
+        .scammer .avatar { margin-right: 0.5rem; margin-left: 0; }
+        .victim .avatar { margin-left: 0.5rem; margin-right: 0; order: 2; }
         .avatar-icon {
             width: 36px;
             height: 36px;
@@ -254,20 +205,11 @@
             gap: 0.4rem;
             transition: opacity 0.3s ease-out;
         }
-        .signs-grid.fade-out {
-            opacity: 0;
-        }
-        .signs-grid.fade-in {
-            animation: fadeIn 0.35s ease-out forwards;
-        }
-
+        .signs-grid.fade-out { opacity: 0; }
+        .signs-grid.fade-in { animation: fadeIn 0.35s ease-out forwards; }
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .sign-btn {
@@ -278,7 +220,6 @@
             font-size: 0.7rem;
             font-weight: 500;
             color: #3a5a7a;
-            cursor: pointer;
             transition: 0.2s;
             font-family: inherit;
             backdrop-filter: blur(2px);
@@ -300,20 +241,14 @@
             border-radius: 3rem;
             font-weight: 600;
             font-size: 0.85rem;
-            cursor: pointer;
             transition: 0.15s;
             margin: 0.2rem 0 0.15rem 0;
             font-family: inherit;
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
         }
-        .submit-btn:active {
-            transform: scale(0.98);
-        }
-        .submit-btn:disabled {
-            background: #b9c2cf;
-            cursor: not-allowed;
-        }
+        .submit-btn:active { transform: scale(0.98); }
+        .submit-btn:disabled { background: #b9c2cf; cursor: not-allowed; }
         .feedback {
             text-align: center;
             font-size: 0.6rem;
@@ -339,25 +274,19 @@
             opacity: 0;
             visibility: hidden;
         }
-
         .pause-overlay.active {
             background: rgba(0, 0, 0, 0.55);
             backdrop-filter: blur(10px);
             opacity: 1;
             visibility: visible;
         }
-
         .pause-stats {
             text-align: center;
             background: transparent;
             transform: scale(0.8);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .pause-overlay.active .pause-stats {
-            transform: scale(1);
-        }
-
+        .pause-overlay.active .pause-stats { transform: scale(1); }
         .pause-points {
             font-size: 3.5rem;
             font-weight: 800;
@@ -382,11 +311,7 @@
             color: #cbd5e6;
             margin: 0.4rem 0;
         }
-        .pause-progress span {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #e0e7ef;
-        }
+        .pause-progress span { font-size: 2rem; font-weight: 700; color: #e0e7ef; }
         .pause-label {
             font-size: 0.65rem;
             color: #9aaebf;
@@ -394,7 +319,118 @@
             letter-spacing: 1px;
             margin-top: 0.6rem;
         }
-
+        .victory-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2100;
+            transition: all 0.3s ease-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+        .victory-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .victory-stats {
+            background: #f5f7fa;
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            text-align: center;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(200, 210, 220, 0.8);
+            color: #2c3e50;
+            max-width: 360px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease-out;
+        }
+        .victory-overlay.active .victory-stats {
+            transform: scale(1);
+        }
+        .victory-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #f5ba18;
+            margin-bottom: 0.8rem;
+        }
+        .victory-points {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c5f8a;
+            background: #eef2f8;
+            padding: 0.4rem 1rem;
+            border-radius: 60px;
+            display: inline-block;
+            margin: 0.5rem 0;
+        }
+        .certificate-input {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 1rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 2rem;
+            background: white;
+            color: #1e2a3a;
+            text-align: center;
+            margin: 0.8rem 0;
+            font-family: inherit;
+            outline: none;
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+        .certificate-input:focus {
+            border-color: #2c5f8a;
+            box-shadow: 0 0 0 2px rgba(44, 95, 138, 0.2);
+        }
+        .certificate-input::placeholder {
+            color: #94a3b8;
+        }
+        .certificate-btn {
+            background: #2c5f8a;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            margin: 0.5rem 0;
+            font-family: inherit;
+        }
+        .certificate-btn:active {
+            transform: scale(0.97);
+        }
+        .cert-hint {
+            font-size: 0.65rem;
+            color: #7f8c8d;
+            margin-top: 0.3rem;
+        }
+        .victory-close-btn {
+            background: #2c5f8a;
+            border: 1px solid white;
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            margin-top: 0.8rem;
+            font-size: 0.85rem;
+            transition: 0.2s;
+            width: 100%;
+            font-family: inherit;
+        }
+        .victory-close-btn:active {
+            transform: scale(0.96);
+        }
+        .victory-close-btn:active { transform: scale(0.96); }
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -411,14 +447,12 @@
             opacity: 0;
             visibility: hidden;
         }
-
         .modal-overlay.active {
             background: rgba(100, 100, 110, 0.6);
             backdrop-filter: blur(8px);
             opacity: 1;
             visibility: visible;
         }
-
         .modal {
             background: #f5f7fa;
             border-radius: 1.8rem;
@@ -434,11 +468,7 @@
             transform: scale(0.9);
             transition: transform 0.3s ease-out;
         }
-
-        .modal-overlay.active .modal {
-            transform: scale(1);
-        }
-
+        .modal-overlay.active .modal { transform: scale(1); }
         .modal h2 {
             font-size: 1.3rem;
             margin-bottom: 0.6rem;
@@ -454,9 +484,6 @@
             line-height: 1.4;
             text-align: left;
             color: #3a5a7a;
-        }
-        .rules p {
-            margin: 0.3rem 0;
         }
         .age-row {
             display: flex;
@@ -487,9 +514,7 @@
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
         }
-        .carousel::-webkit-scrollbar {
-            display: none;
-        }
+        .carousel::-webkit-scrollbar { display: none; }
         .age-item {
             height: 27px;
             scroll-snap-align: center;
@@ -527,10 +552,8 @@
             border-radius: 2rem;
             font-size: 0.7rem;
             font-weight: 600;
-            cursor: pointer;
             color: #2c5f8a;
             transition: 0.2s;
-            -webkit-tap-highlight-color: transparent;
         }
         .time-btn.active-mode {
             background: #2c5f8a;
@@ -545,11 +568,21 @@
             border: none;
             border-radius: 2rem;
             font-weight: 700;
-            cursor: pointer;
             font-size: 0.85rem;
             margin-top: 0.4rem;
             transition: 0.2s;
-            -webkit-tap-highlight-color: transparent;
+        }
+        .guides-btn {
+            background: #27ae60;
+            color: white;
+            width: 100%;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-top: 0.4rem;
+            transition: 0.2s;
         }
         .toast-msg {
             position: fixed;
@@ -567,17 +600,9 @@
             transition: opacity 0.2s;
             pointer-events: none;
         }
-        .chat-container::-webkit-scrollbar {
-            width: 4px;
-        }
-        .chat-container::-webkit-scrollbar-track {
-            background: #e2e8f0;
-            border-radius: 4px;
-        }
-        .chat-container::-webkit-scrollbar-thumb {
-            background: #b9c2cf;
-            border-radius: 4px;
-        }
+        .chat-container::-webkit-scrollbar { width: 4px; }
+        .chat-container::-webkit-scrollbar-track { background: #e2e8f0; border-radius: 4px; }
+        .chat-container::-webkit-scrollbar-thumb { background: #b9c2cf; border-radius: 4px; }
         .help-modal-overlay {
             position: fixed;
             top: 0;
@@ -614,9 +639,7 @@
             transform: scale(0.9);
             transition: transform 0.3s ease-out;
         }
-        .help-modal-overlay.active .help-modal {
-            transform: scale(1);
-        }
+        .help-modal-overlay.active .help-modal { transform: scale(1); }
         .help-modal h2 {
             font-size: 1.5rem;
             font-weight: 700;
@@ -642,18 +665,8 @@
             transition: all 0.2s;
             border: 1px solid #e2e8f0;
         }
-        .help-link-emoji {
-            font-size: 1.5rem;
-        }
-        .help-link-text {
-            flex: 1;
-            text-align: left;
-        }
-        .help-link-url {
-            font-size: 0.7rem;
-            color: #7f8c8d;
-            margin-top: 0.2rem;
-        }
+        .help-link-emoji { font-size: 1.5rem; }
+        .help-link-text { flex: 1; text-align: left; }
         .back-to-game-btn {
             background: #2c5f8a;
             color: white;
@@ -663,14 +676,11 @@
             border-radius: 2rem;
             font-weight: 600;
             font-size: 0.9rem;
-            cursor: pointer;
             transition: 0.2s;
             margin-top: 0.5rem;
             font-family: inherit;
         }
-        .back-to-game-btn:active {
-            transform: scale(0.98);
-        }
+        .back-to-game-btn:active { transform: scale(0.98); }
     </style>
 </head>
 <body class="no-select">
@@ -704,180 +714,112 @@
 <div id="toast" class="toast-msg"></div>
 
 <script>
-    // iOS фикс для правильной высоты
+    // ==================== КОНСТАНТЫ ДЛЯ СЕРТИФИКАТА ====================
+    const EMPTY_CERT_URL = 'https://cantevenexist.github.io/stopscam/templates/cert_empty.png';
+    const TEMPLATE_URL = 'https://cantevenexist.github.io/stopscam/templates/cert_name.png';
+
+    async function downloadCertificateWithName(playerName) {
+        const name = playerName.trim();
+        const isNameEmpty = name === '';
+        if (isNameEmpty) {
+            try {
+                const response = await fetch(EMPTY_CERT_URL);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'certificate_empty.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Ошибка загрузки пустого сертификата:', error);
+                alert('Не удалось загрузить сертификат. Проверьте соединение.');
+            }
+            return;
+        }
+        try {
+            const img = new Image();
+            img.crossOrigin = "Anonymous";
+            const imageLoadPromise = new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+            });
+            img.src = TEMPLATE_URL;
+            await imageLoadPromise;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+            const fontSize = 220;
+            ctx.font = `bold ${fontSize}px "Segoe UI", "Arial", "Microsoft YaHei", sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+            ctx.shadowBlur = 8;
+            ctx.shadowOffsetX = 2;
+            ctx.shadowOffsetY = 2;
+            const textWidth = ctx.measureText(name).width;
+            const x = (canvas.width - textWidth) / 2;
+            const y = (canvas.height + fontSize) / 2 + 180;
+            ctx.fillText(name, x, y);
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `certificate_${name}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        } catch (error) {
+            console.error('Ошибка при создании именного сертификата:', error);
+            alert('Не удалось обработать сертификат. Попробуйте позже.');
+        }
+    }
+
+    // ==================== ОСТАЛЬНАЯ ЛОГИКА ИГРЫ ====================
     function fixIOSHeight() {
         const vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
-        
-        const gameContainer = document.getElementById('gameContainer');
-        if (gameContainer) {
-            gameContainer.style.height = `${window.innerHeight}px`;
-        }
+        const container = document.getElementById('gameContainer');
+        if (container) container.style.height = `${window.innerHeight}px`;
     }
-    
     window.addEventListener('resize', fixIOSHeight);
     window.addEventListener('orientationchange', fixIOSHeight);
     fixIOSHeight();
 
     const SITUATIONS_BY_AGE = {
-    child: [
-        {
-            messages: [
-                { sender: "scammer", text: "Привет! Мне твой друг Саня сказал, что ты хочешь вывести деньги с Пушкинской карты? Я тебе могу в этом помочь... Скажи мне только полные данные карты." },
-                { sender: "victim", text: "Да, привет! Круто! Я готов... Номер карты 1234 5678 1234 5678, код 123" },
-                { sender: "scammer", text: "Супер! Там сейчас смс-ка тебе упадет, скажи код." },
-                { sender: "victim", text: "Код 6512..." }
-            ],
-            correctSigns: ["Запрос полных данных карты", "Запрос кода из SMS", "Обещание лёгкого заработка", "Давление на жадность"],
-            decoySigns: ["Угроза блокировки аккаунта", "Перевод на резервный счёт", "Установка удалённого доступа"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Привет, я могу тебе помочь в покупке нового скина в Roblox, мне совсем не жалко! Ты классно играешь!" },
-                { sender: "victim", text: "Спасибо! Мне бы вот только получить новый скин!" },
-                { sender: "scammer", text: "Я тебе закину игровую валюту, только ты умеешь хранить секреты? Просто возьми мамин смартфон и сделай пару действий." },
-                { sender: "victim", text: "Да, хорошо! Я как раз знаю пароль от маминого телефона." }
-            ],
-            correctSigns: ["Просьба взять чужой телефон", "Обещание игровой валюты", "Просьба хранить секрет от родителей"],
-            decoySigns: ["Запрос кода из SMS от банка", "Перевод денег на карту", "Угроза блокировки"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Здравствуйте, капитан ФСБ Петров! Ваша мать арестована по подозрению в финансировании ВСУ! Сядет надолго!" },
-                { sender: "victim", text: "Как так? Что она сделала? Что мне делать?" },
-                { sender: "scammer", text: "Собери все ценные вещи дома и передай нашему сотруднику, он приедет через час. Иначе тебя сдадут в детдом!" },
-                { sender: "victim", text: "Да-да, конечно. Пусть приезжает, я готов всё отдать!" }
-            ],
-            correctSigns: ["Запугивание", "Требование передать ценные вещи курьеру", "Угроза детдомом", "Создание паники"],
-            decoySigns: ["Код из SMS", "Перевод на резервный счёт", "Фишинговая ссылка"]
-        }
-    ],
-    teen: [
-        {
-            messages: [
-                { sender: "scammer", text: "Добрый день, Андрей! Мы нашли Вашу анкету на Хед Хантере, хотим предложить Вам работу. Доход от 300000 в месяц, занятость всего 4 часа в день." },
-                { sender: "victim", text: "О! Круто! Когда я могу приступать? Что нужно делать?" },
-                { sender: "scammer", text: "Пришлите нам свои документы, фото карты с двух сторон, а также оплатите обучение на нашей платформе — 625 рублей." },
-                { sender: "victim", text: "Спасибо, куда переводить деньги?" }
-            ],
-            correctSigns: ["Слишком высокая зарплата", "Запрос фото карты с двух сторон", "Оплата обучения за свой счёт", "Отсутствие собеседования"],
-            decoySigns: ["Угроза блокировки аккаунта", "Звонок от начальника", "Обещание выигрыша"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Здравствуйте, капитан ФСБ Петров! Ваша мать арестована по подозрению в финансировании ВСУ! Сядет надолго!" },
-                { sender: "victim", text: "Как так? Что она сделала? Что мне делать?" },
-                { sender: "scammer", text: "Собери все ценные вещи дома и передай нашему сотруднику, он приедет через час. Иначе тебя сдадут в детдом!" },
-                { sender: "victim", text: "Да-да, конечно. Пусть приезжает, я готов всё отдать!" }
-            ],
-            correctSigns: ["Запугивание", "Требование передать ценные вещи курьеру", "Угроза детдомом", "Создание паники"],
-            decoySigns: ["Код из SMS", "Перевод на резервный счёт", "Фишинговая ссылка"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Привет! Я могу помочь вывести деньги с Пушкинской карты. Скажи полные данные карты, и вечером деньги будут у тебя." },
-                { sender: "victim", text: "Круто! Номер карты 1234 5678 1234 5678, код 123" },
-                { sender: "scammer", text: "Скажи код из смс, и сразу закину деньги." },
-                { sender: "victim", text: "Код 6512..." }
-            ],
-            correctSigns: ["Запрос данных карты", "Запрос кода из SMS", "Обещание лёгких денег"],
-            decoySigns: ["Угроза родителям", "Звонок из банка", "Компенсация от государства"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Привет, красавчик! Ты классный! Познакомимся? Пришли мне фотку и геолокацию." },
-                { sender: "victim", text: "Привет! Ты тоже очень красивая!" },
-                { sender: "scammer", text: "Отправь мне интимное фото, чтобы я скорее смогла тебя найти." },
-                { sender: "victim", text: "Хорошо, отправляю..." }
-            ],
-            correctSigns: ["Запрос интимных фото", "Запрос геолокации", "Быстрое знакомство с давлением"],
-            decoySigns: ["Просьба перевести деньги", "Код из SMS", "Ссылка на фишинговый сайт"]
-        }
-    ],
-    adult: [
-        {
-            messages: [
-                { sender: "scammer", text: "Дочка, привет! (голосовое) Хотела у тебя помощи попросить — одолжи 16 тысяч для ипотечного платежа." },
-                { sender: "victim", text: "Конечно! Тебе как обычно на сбер перевести?" },
-                { sender: "scammer", text: "Переведи на мою новую карту в другом банке. Номер карты 1234 5678 1234 5678. Завтра верну." },
-                { sender: "victim", text: "Хорошо, перевела!" }
-            ],
-            correctSigns: ["Голосовое сообщение от подменного номера", "Просьба перевести на новую карту", "Срочность"],
-            decoySigns: ["Код из SMS от Госуслуг", "Установка приложения", "Звонок из ФСБ"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Татьяна Ивановна, это начальник. У нас утечка данных, сейчас вам позвонит сотрудник ФСБ." },
-                { sender: "victim", text: "Геннадий Михайлович, спасибо за информацию!" },
-                { sender: "scammer", text: "Это ФСБ. Чтобы спасти деньги от перевода ВСУ, снимите все средства и положите на безопасный счёт." },
-                { sender: "victim", text: "Сняла 413 000 рублей. Перевела на указанные реквизиты!" }
-            ],
-            correctSigns: ["Звонок от имени начальника", "Звонок от имени ФСБ", "Перевод на безопасный счёт", "Упоминание ВСУ для давления"],
-            decoySigns: ["Выигрыш в лотерею", "Код из SMS", "Ссылка на сайт"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Здравствуйте, курьерская служба. На ваше имя оформлен заказ — букет из 25 роз. Назовите код из письма." },
-                { sender: "victim", text: "Но я ничего не заказывала... Ладно, код 482917." },
-                { sender: "scammer", text: "Система не зафиксировала оплату. Назовите код из SMS от Госуслуг." },
-                { sender: "victim", text: "Код 7351." }
-            ],
-            correctSigns: ["Запрос кода из письма", "Запрос кода из SMS от Госуслуг", "Двухэтапный обман"],
-            decoySigns: ["Перевод денег на карту", "Оплата обучения", "Звонок из банка"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "SMS: выполнен вход в Госуслуги с нового устройства. Звоните в техподдержку: 8-800-555-35-35." },
-                { sender: "victim", text: "О нет! Звоню..." },
-                { sender: "scammer", text: "Техподдержка Госуслуг. Назовите код из SMS для блокировки взлома." },
-                { sender: "victim", text: "Код 284739, потом ещё код 6512... Всё сказала!" }
-            ],
-            correctSigns: ["Поддельное SMS от Госуслуг", "Запрос кодов из SMS", "Номер техподдержки от мошенников"],
-            decoySigns: ["Перевод на резервный счёт", "Установка удалённого доступа", "Выигрыш"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Письмо от Банка России: вам положена компенсация 12 500 рублей за мошенничество. Позвоните по номеру 8-800-700-12-34." },
-                { sender: "victim", text: "Ого! Правда? Звоню..." },
-                { sender: "scammer", text: "Для получения компенсации оплатите сбор 625 рублей и назовите код из SMS." },
-                { sender: "victim", text: "Перевёл 625 рублей, код 8472." }
-            ],
-            correctSigns: ["Письмо от имени Банка России", "Просьба оплатить сбор для получения компенсации", "Запрос кода из SMS"],
-            decoySigns: ["Угроза ареста", "Звонок от начальника", "Пушкинская карта"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "SMS: на ваше имя оформлена доверенность от Банка России на кредит 500 000₽. Звоните: 8-800-333-44-55." },
-                { sender: "victim", text: "Что?! Кто-то хочет взять кредит на моё имя?" },
-                { sender: "scammer", text: "Служба безопасности Госуслуг. Назовите код из SMS для аннулирования доверенности и ваши паспортные данные." },
-                { sender: "victim", text: "Код 583927, потом 1462. Паспортные данные: ... СНИЛС: ..." }
-            ],
-            correctSigns: ["SMS про доверенность от Банка России", "Запрос кодов из SMS несколько раз", "Запрос паспортных данных и СНИЛС"],
-            decoySigns: ["Выигрыш в конкурсе", "Бесплатная доставка цветов", "Помощь бабушке"]
-        },
-        {
-            messages: [
-                { sender: "scammer", text: "Алексей из БыстрогоКредита. Ваша заявка на 300 000₽ одобрена. Оплатите страховку 1 500₽." },
-                { sender: "victim", text: "Оплатил." },
-                { sender: "scammer", text: "Банк России заблокировал выдачу. Внесите 300 000₽ на защищённый счёт для разблокировки. Деньги вернутся." },
-                { sender: "victim", text: "Перевёл 300 000₽... Меня обманули?" }
-            ],
-            correctSigns: ["Оплата страховки за кредит", "Просьба внести залог для получения кредита", "Поэтапное выманивание денег"],
-            decoySigns: ["Код из SMS от бабушки", "Звонок из ФСБ", "Работа от 300 000₽ в месяц"]
-        }
-    ]
-};
+        child: [
+            { messages: [{ sender: "scammer", text: "Привет! Мне твой друг Саня сказал, что ты хочешь вывести деньги с Пушкинской карты? Я тебе могу в этом помочь... Скажи мне только полные данные карты." }, { sender: "victim", text: "Да, привет! Круто! Я готов... Номер карты 1234 5678 1234 5678, код 123" }, { sender: "scammer", text: "Супер! Там сейчас смс-ка тебе упадет, скажи код." }, { sender: "victim", text: "Код 6512..." }], correctSigns: ["Запрос полных данных карты", "Запрос кода из SMS", "Обещание лёгкого заработка", "Давление на жадность"], decoySigns: ["Угроза блокировки аккаунта", "Перевод на резервный счёт", "Установка удалённого доступа"] },
+            { messages: [{ sender: "scammer", text: "Привет, я могу тебе помочь в покупке нового скина в Roblox, мне совсем не жалко! Ты классно играешь!" }, { sender: "victim", text: "Спасибо! Мне бы вот только получить новый скин!" }, { sender: "scammer", text: "Я тебе закину игровую валюту, только ты умеешь хранить секреты? Просто возьми мамин смартфон и сделай пару действий." }, { sender: "victim", text: "Да, хорошо! Я как раз знаю пароль от маминого телефона." }], correctSigns: ["Просьба взять чужой телефон", "Обещание игровой валюты", "Просьба хранить секрет от родителей"], decoySigns: ["Запрос кода из SMS от банка", "Перевод денег на карту", "Угроза блокировки"] },
+            { messages: [{ sender: "scammer", text: "Здравствуйте, капитан ФСБ Петров! Ваша мать арестована по подозрению в финансировании ВСУ! Сядет надолго!" }, { sender: "victim", text: "Как так? Что она сделала? Что мне делать?" }, { sender: "scammer", text: "Собери все ценные вещи дома и передай нашему сотруднику, он приедет через час. Иначе тебя сдадут в детдом!" }, { sender: "victim", text: "Да-да, конечно. Пусть приезжает, я готов всё отдать!" }], correctSigns: ["Запугивание", "Требование передать ценные вещи курьеру", "Угроза детдомом", "Создание паники"], decoySigns: ["Код из SMS", "Перевод на резервный счёт", "Фишинговая ссылка"] }
+        ],
+        teen: [
+            { messages: [{ sender: "scammer", text: "Добрый день, Андрей! Мы нашли Вашу анкету на Хед Хантере, хотим предложить Вам работу. Доход от 300000 в месяц, занятость всего 4 часа в день." }, { sender: "victim", text: "О! Круто! Когда я могу приступать? Что нужно делать?" }, { sender: "scammer", text: "Пришлите нам свои документы, фото карты с двух сторон, а также оплатите обучение на нашей платформе — 625 рублей." }, { sender: "victim", text: "Спасибо, куда переводить деньги?" }], correctSigns: ["Слишком высокая зарплата", "Запрос фото карты с двух сторон", "Оплата обучения за свой счёт", "Отсутствие собеседования"], decoySigns: ["Угроза блокировки аккаунта", "Звонок от начальника", "Обещание выигрыша"] },
+            { messages: [{ sender: "scammer", text: "Здравствуйте, капитан ФСБ Петров! Ваша мать арестована по подозрению в финансировании ВСУ! Сядет надолго!" }, { sender: "victim", text: "Как так? Что она сделала? Что мне делать?" }, { sender: "scammer", text: "Собери все ценные вещи дома и передай нашему сотруднику, он приедет через час. Иначе тебя сдадут в детдом!" }, { sender: "victim", text: "Да-да, конечно. Пусть приезжает, я готов всё отдать!" }], correctSigns: ["Запугивание", "Требование передать ценные вещи курьеру", "Угроза детдомом", "Создание паники"], decoySigns: ["Код из SMS", "Перевод на резервный счёт", "Фишинговая ссылка"] },
+            { messages: [{ sender: "scammer", text: "Привет! Я могу помочь вывести деньги с Пушкинской карты. Скажи полные данные карты, и вечером деньги будут у тебя." }, { sender: "victim", text: "Круто! Номер карты 1234 5678 1234 5678, код 123" }, { sender: "scammer", text: "Скажи код из смс, и сразу закину деньги." }, { sender: "victim", text: "Код 6512..." }], correctSigns: ["Запрос данных карты", "Запрос кода из SMS", "Обещание лёгких денег"], decoySigns: ["Угроза родителям", "Звонок из банка", "Компенсация от государства"] },
+            { messages: [{ sender: "scammer", text: "Привет, красавчик! Ты классный! Познакомимся? Пришли мне фотку и геолокацию." }, { sender: "victim", text: "Привет! Ты тоже очень красивая!" }, { sender: "scammer", text: "Отправь мне интимное фото, чтобы я скорее смогла тебя найти." }, { sender: "victim", text: "Хорошо, отправляю..." }], correctSigns: ["Запрос интимных фото", "Запрос геолокации", "Быстрое знакомство с давлением"], decoySigns: ["Просьба перевести деньги", "Код из SMS", "Ссылка на фишинговый сайт"] }
+        ],
+        adult: [
+            { messages: [{ sender: "scammer", text: "Дочка, привет! (голосовое) Хотела у тебя помощи попросить — одолжи 16 тысяч для ипотечного платежа." }, { sender: "victim", text: "Конечно! Тебе как обычно на сбер перевести?" }, { sender: "scammer", text: "Переведи на мою новую карту в другом банке. Номер карты 1234 5678 1234 5678. Завтра верну." }, { sender: "victim", text: "Хорошо, перевела!" }], correctSigns: ["Голосовое сообщение от подменного номера", "Просьба перевести на новую карту", "Срочность"], decoySigns: ["Код из SMS от Госуслуг", "Установка приложения", "Звонок из ФСБ"] },
+            { messages: [{ sender: "scammer", text: "Татьяна Ивановна, это начальник. У нас утечка данных, сейчас вам позвонит сотрудник ФСБ." }, { sender: "victim", text: "Геннадий Михайлович, спасибо за информацию!" }, { sender: "scammer", text: "Это ФСБ. Чтобы спасти деньги от перевода ВСУ, снимите все средства и положите на безопасный счёт." }, { sender: "victim", text: "Сняла 413 000 рублей. Перевела на указанные реквизиты!" }], correctSigns: ["Звонок от имени начальника", "Звонок от имени ФСБ", "Перевод на безопасный счёт", "Упоминание ВСУ для давления"], decoySigns: ["Выигрыш в лотерею", "Код из SMS", "Ссылка на сайт"] },
+            { messages: [{ sender: "scammer", text: "Здравствуйте, курьерская служба. На ваше имя оформлен заказ — букет из 25 роз. Назовите код из письма." }, { sender: "victim", text: "Но я ничего не заказывала... Ладно, код 482917." }, { sender: "scammer", text: "Система не зафиксировала оплату. Назовите код из SMS от Госуслуг." }, { sender: "victim", text: "Код 7351." }], correctSigns: ["Запрос кода из письма", "Запрос кода из SMS от Госуслуг", "Двухэтапный обман"], decoySigns: ["Перевод денег на карту", "Оплата обучения", "Звонок из банка"] },
+            { messages: [{ sender: "scammer", text: "SMS: выполнен вход в Госуслуги с нового устройства. Звоните в техподдержку: 8-800-555-35-35." }, { sender: "victim", text: "О нет! Звоню..." }, { sender: "scammer", text: "Техподдержка Госуслуг. Назовите код из SMS для блокировки взлома." }, { sender: "victim", text: "Код 284739, потом ещё код 6512... Всё сказала!" }], correctSigns: ["Поддельное SMS от Госуслуг", "Запрос кодов из SMS", "Номер техподдержки от мошенников"], decoySigns: ["Перевод на резервный счёт", "Установка удалённого доступа", "Выигрыш"] },
+            { messages: [{ sender: "scammer", text: "Письмо от Банка России: вам положена компенсация 12 500 рублей за мошенничество. Позвоните по номеру 8-800-700-12-34." }, { sender: "victim", text: "Ого! Правда? Звоню..." }, { sender: "scammer", text: "Для получения компенсации оплатите сбор 625 рублей и назовите код из SMS." }, { sender: "victim", text: "Перевёл 625 рублей, код 8472." }], correctSigns: ["Письмо от имени Банка России", "Просьба оплатить сбор для получения компенсации", "Запрос кода из SMS"], decoySigns: ["Угроза ареста", "Звонок от начальника", "Пушкинская карта"] },
+            { messages: [{ sender: "scammer", text: "SMS: на ваше имя оформлена доверенность от Банка России на кредит 500 000₽. Звоните: 8-800-333-44-55." }, { sender: "victim", text: "Что?! Кто-то хочет взять кредит на моё имя?" }, { sender: "scammer", text: "Служба безопасности Госуслуг. Назовите код из SMS для аннулирования доверенности и ваши паспортные данные." }, { sender: "victim", text: "Код 583927, потом 1462. Паспортные данные: ... СНИЛС: ..." }], correctSigns: ["SMS про доверенность от Банка России", "Запрос кодов из SMS несколько раз", "Запрос паспортных данных и СНИЛС"], decoySigns: ["Выигрыш в конкурсе", "Бесплатная доставка цветов", "Помощь бабушке"] },
+            { messages: [{ sender: "scammer", text: "Алексей из БыстрогоКредита. Ваша заявка на 300 000₽ одобрена. Оплатите страховку 1 500₽." }, { sender: "victim", text: "Оплатил." }, { sender: "scammer", text: "Банк России заблокировал выдачу. Внесите 300 000₽ на защищённый счёт для разблокировки. Деньги вернутся." }, { sender: "victim", text: "Перевёл 300 000₽... Меня обманули?" }], correctSigns: ["Оплата страховки за кредит", "Просьба внести залог для получения кредита", "Поэтапное выманивание денег"], decoySigns: ["Код из SMS от бабушки", "Звонок из ФСБ", "Работа от 300 000₽ в месяц"] }
+        ]
+    };
 
     function getAgeCategory(age) {
         if (age >= 12 && age <= 15) return 'child';
         if (age >= 16 && age <= 24) return 'teen';
         return 'adult';
     }
-
-    function getSituationsByAge(age) {
-        const category = getAgeCategory(age);
-        return SITUATIONS_BY_AGE[category];
-    }
+    function getSituationsByAge(age) { return SITUATIONS_BY_AGE[getAgeCategory(age)]; }
 
     function getDynamicPadding(text) {
         const len = text.length;
@@ -896,14 +838,14 @@
     }
     function getColorsByRole(role, styleId) {
         if (role === 'scammer') {
-            switch(styleId) {
+            switch(styleId % 4) {
                 case 0: return { bg: 'linear-gradient(125deg, #ffe0db, #ffc8bd)', shadow: '#d98f7a', text: '#8a3a28' };
                 case 1: return { bg: '#fddbd4', shadow: '#e0a090', text: '#a04530' };
                 case 2: return { bg: '#ffe0da', shadow: '#e0aea0', text: '#9a4a38' };
                 default: return { bg: '#fdd8cf', shadow: '#d99a82', text: '#8a4a38' };
             }
         } else {
-            switch(styleId) {
+            switch(styleId % 4) {
                 case 0: return { bg: 'linear-gradient(125deg, #dbeafe, #c5e0f5)', shadow: '#8fb0cc', text: '#2a5a7a' };
                 case 1: return { bg: '#d4e8f5', shadow: '#a0bcd4', text: '#2a607a' };
                 case 2: return { bg: '#dceaf5', shadow: '#a0b8d0', text: '#285a78' };
@@ -911,162 +853,116 @@
             }
         }
     }
-    function renderSharpSlant(text, role, styleIdx) {
-        const colors = getColorsByRole(role, styleIdx);
-        const horPad = getDynamicPadding(text);
-        const vert = getVerticalPadding(text);
-        const container = document.createElement('div');
-        container.style.cssText = `
-            background: ${colors.bg};
-            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
-            clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%);
-            border-radius: 0 20px 0 20px;
-            box-shadow: 6px 8px 0 ${colors.shadow};
-            display: inline-block;
-            max-width: 100%;
-            transform: rotate(-0.5deg);
-        `;
-        const inner = document.createElement('div');
-        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; line-height: 1.45; word-break: break-word;`;
-        inner.innerText = text;
-        container.appendChild(inner);
-        return container;
-    }
-    function renderBrokenShift(text, role, styleIdx) {
-        const colors = getColorsByRole(role, styleIdx);
-        const horPad = getDynamicPadding(text);
-        const vert = getVerticalPadding(text);
-        const container = document.createElement('div');
-        container.style.cssText = `
-            background: ${colors.bg};
-            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
-            clip-path: polygon(0% 0%, 85% 0%, 100% 30%, 90% 60%, 100% 100%, 10% 100%, 0% 70%);
-            box-shadow: 8px 8px 0 ${colors.shadow};
-            display: inline-block;
-            transform: rotate(0.4deg);
-        `;
-        const inner = document.createElement('div');
-        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; line-height: 1.45; word-break: break-word;`;
-        inner.innerText = text;
-        container.appendChild(inner);
-        return container;
-    }
-    function renderBeakSkew(text, role, styleIdx) {
-        const colors = getColorsByRole(role, styleIdx);
-        const horPad = getDynamicPadding(text);
-        const vert = getVerticalPadding(text);
-        const container = document.createElement('div');
-        container.style.cssText = `
-            background: ${colors.bg};
-            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
-            clip-path: polygon(0% 0%, 85% 0%, 100% 35%, 95% 70%, 100% 100%, 45% 100%, 0% 75%);
-            border-radius: 0 18px 18px 0;
-            box-shadow: -5px 8px 0 ${colors.shadow};
-            transform: rotate(-0.3deg) skewX(0.5deg);
-        `;
-        const inner = document.createElement('div');
-        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; word-break: break-word;`;
-        inner.innerText = text;
-        container.appendChild(inner);
-        return container;
-    }
-    function renderJaggedSkew(text, role, styleIdx) {
-        const colors = getColorsByRole(role, styleIdx);
-        const horPad = getDynamicPadding(text);
-        const vert = getVerticalPadding(text);
-        const container = document.createElement('div');
-        container.style.cssText = `
-            background: ${colors.bg};
-            padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem;
-            clip-path: polygon(10% 0%, 90% 0%, 100% 25%, 95% 50%, 100% 75%, 85% 100%, 5% 100%, 0% 75%, 5% 50%, 0% 25%);
-            box-shadow: 8px 8px 0 ${colors.shadow};
-            transform: skewY(-0.2deg);
-        `;
-        const inner = document.createElement('div');
-        inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; word-break: break-word;`;
-        inner.innerText = text;
-        container.appendChild(inner);
-        return container;
-    }
-    const renderers = [renderSharpSlant, renderBrokenShift, renderBeakSkew, renderJaggedSkew];
-
-    let currentSituations = [];
-    let currentIndex = 0;
-    let totalScore = 0;
-    let remainingSeconds = 60;
-    let gameTimer = null;
-    let waitingSubmit = false;
-    let selectedSignsSet = new Set();
-    let gameActive = false;
-    let infiniteMode = false;
-    let gameFinished = false;
-    let isTransitioning = false;
-
-    const chatLogEl = document.getElementById('chatLog');
-    const signsContainer = document.getElementById('signsContainer');
-    const signsPanel = document.getElementById('signsPanel');
-    const submitBtn = document.getElementById('submitBtn');
-    const totalScoreSpan = document.getElementById('totalScoreDisplay');
-    const timerSpan = document.getElementById('timerDisplay');
-    const feedbackDiv = document.getElementById('feedbackMsg');
-    const toastEl = document.getElementById('toast');
-    const exitBtn = document.getElementById('exitBtn');
-
-    function showToast(msg) {
-        toastEl.textContent = msg;
-        toastEl.style.opacity = '1';
-        setTimeout(() => toastEl.style.opacity = '0', 1500);
-    }
-
-    function updateTimerUI() {
-        if (infiniteMode) timerSpan.textContent = "∞";
-        else timerSpan.textContent = Math.max(0, remainingSeconds);
-    }
-    function stopTimer() { if (gameTimer) { clearInterval(gameTimer); gameTimer = null; } }
-    function startTimer(seconds, isInf) {
-        stopTimer();
-        if (isInf) { infiniteMode = true; updateTimerUI(); return; }
-        infiniteMode = false;
-        remainingSeconds = seconds;
-        updateTimerUI();
-        gameTimer = setInterval(() => {
-            if (!gameActive || waitingSubmit || gameFinished || isTransitioning) return;
-            if (remainingSeconds <= 0) {
-                clearInterval(gameTimer);
-                gameTimer = null;
-                gameActive = false;
-                gameFinished = true;
-                feedbackDiv.innerHTML = "время вышло. игра окончена.";
-                submitBtn.disabled = true;
-                document.querySelectorAll('.sign-btn').forEach(btn => btn.style.pointerEvents = 'none');
-                return;
-            }
-            remainingSeconds--;
-            updateTimerUI();
-        }, 1000);
-    }
-
-    function calculatePoints(correctCount, wrongCount, missedCount, totalCorrect) {
-        if (correctCount === 0) return 0;
-        const weight = 100 / totalCorrect;
-        let pts = correctCount * weight;
-        pts -= wrongCount * (weight * 0.7);
-        pts -= missedCount * (weight * 0.35);
-        return Math.max(0, Math.min(100, Math.round(pts)));
-    }
-
-    function getSelectedDetails() {
-        const selected = [];
-        for (let txt of selectedSignsSet) {
-            const btns = document.querySelectorAll('.sign-btn');
-            for (let btn of btns) {
-                if (btn.textContent === txt) {
-                    selected.push({ text: txt, type: btn.getAttribute('data-type') });
-                    break;
-                }
-            }
+    const renderers = [
+        (text, role, idx) => {
+            const colors = getColorsByRole(role, idx);
+            const horPad = getDynamicPadding(text);
+            const vert = getVerticalPadding(text);
+            const div = document.createElement('div');
+            div.style.cssText = `background: ${colors.bg}; padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem; clip-path: polygon(8% 0%, 100% 0%, 92% 100%, 0% 100%); border-radius: 0 20px 0 20px; box-shadow: 6px 8px 0 ${colors.shadow}; display: inline-block; transform: rotate(-0.5deg);`;
+            const inner = document.createElement('div');
+            inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; line-height: 1.45; word-break: break-word;`;
+            inner.innerText = text;
+            div.appendChild(inner);
+            return div;
+        },
+        (text, role, idx) => {
+            const colors = getColorsByRole(role, idx);
+            const horPad = getDynamicPadding(text);
+            const vert = getVerticalPadding(text);
+            const div = document.createElement('div');
+            div.style.cssText = `background: ${colors.bg}; padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem; clip-path: polygon(0% 0%, 85% 0%, 100% 30%, 90% 60%, 100% 100%, 10% 100%, 0% 70%); box-shadow: 8px 8px 0 ${colors.shadow}; display: inline-block; transform: rotate(0.4deg);`;
+            const inner = document.createElement('div');
+            inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; line-height: 1.45; word-break: break-word;`;
+            inner.innerText = text;
+            div.appendChild(inner);
+            return div;
+        },
+        (text, role, idx) => {
+            const colors = getColorsByRole(role, idx);
+            const horPad = getDynamicPadding(text);
+            const vert = getVerticalPadding(text);
+            const div = document.createElement('div');
+            div.style.cssText = `background: ${colors.bg}; padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem; clip-path: polygon(0% 0%, 85% 0%, 100% 35%, 95% 70%, 100% 100%, 45% 100%, 0% 75%); border-radius: 0 18px 18px 0; box-shadow: -5px 8px 0 ${colors.shadow}; transform: rotate(-0.3deg) skewX(0.5deg);`;
+            const inner = document.createElement('div');
+            inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; word-break: break-word;`;
+            inner.innerText = text;
+            div.appendChild(inner);
+            return div;
+        },
+        (text, role, idx) => {
+            const colors = getColorsByRole(role, idx);
+            const horPad = getDynamicPadding(text);
+            const vert = getVerticalPadding(text);
+            const div = document.createElement('div');
+            div.style.cssText = `background: ${colors.bg}; padding: ${vert.top}rem ${horPad}rem ${vert.bottom}rem ${horPad}rem; clip-path: polygon(10% 0%, 90% 0%, 100% 25%, 95% 50%, 100% 75%, 85% 100%, 5% 100%, 0% 75%, 5% 50%, 0% 25%); box-shadow: 8px 8px 0 ${colors.shadow}; transform: skewY(-0.2deg);`;
+            const inner = document.createElement('div');
+            inner.style.cssText = `color: ${colors.text}; font-weight: 600; font-size: 0.85rem; word-break: break-word;`;
+            inner.innerText = text;
+            div.appendChild(inner);
+            return div;
         }
-        return selected;
+    ];
+
+    let currentSituations = [], currentIndex = 0, totalScore = 0, remainingSeconds = 60, gameTimer = null, waitingSubmit = false;
+    let selectedSignsSet = new Set(), gameActive = false, infiniteMode = false, gameFinished = false, isTransitioning = false;
+    let victoryAchieved = false, maxPossiblePoints = 0;
+
+    const chatLogEl = document.getElementById('chatLog'), signsContainer = document.getElementById('signsContainer'), signsPanel = document.getElementById('signsPanel'), submitBtn = document.getElementById('submitBtn');
+    const totalScoreSpan = document.getElementById('totalScoreDisplay'), timerSpan = document.getElementById('timerDisplay'), feedbackDiv = document.getElementById('feedbackMsg'), toastEl = document.getElementById('toast'), exitBtn = document.getElementById('exitBtn');
+
+    function showToast(msg) { toastEl.textContent = msg; toastEl.style.opacity = '1'; setTimeout(() => toastEl.style.opacity = '0', 1500); }
+    function updateTimerUI() { if (infiniteMode) timerSpan.textContent = "∞"; else timerSpan.textContent = Math.max(0, remainingSeconds); }
+    function stopTimer() { if (gameTimer) { clearInterval(gameTimer); gameTimer = null; } }
+    function startTimer(seconds, isInf) { stopTimer(); if (isInf) { infiniteMode = true; updateTimerUI(); return; } infiniteMode = false; remainingSeconds = seconds; updateTimerUI(); gameTimer = setInterval(() => { if (!gameActive || waitingSubmit || gameFinished || isTransitioning) return; if (remainingSeconds <= 0) { clearInterval(gameTimer); gameTimer = null; gameActive = false; gameFinished = true; feedbackDiv.innerHTML = "время вышло. игра окончена."; submitBtn.disabled = true; document.querySelectorAll('.sign-btn').forEach(btn => btn.style.pointerEvents = 'none'); } else { remainingSeconds--; updateTimerUI(); } }, 1000); }
+    function calculatePoints(correctCount, wrongCount, missedCount, totalCorrect) { if (correctCount === 0) return 0; const weight = 100 / totalCorrect; let pts = correctCount * weight; pts -= wrongCount * (weight * 0.7); pts -= missedCount * (weight * 0.35); return Math.max(0, Math.min(100, Math.round(pts))); }
+    function getSelectedDetails() { let selected = []; for (let txt of selectedSignsSet) { const btns = document.querySelectorAll('.sign-btn'); for (let btn of btns) if (btn.textContent === txt) { selected.push({ text: txt, type: btn.getAttribute('data-type') }); break; } } return selected; }
+    
+    function showVictoryBlur() {
+        const percent = Math.round((totalScore / maxPossiblePoints) * 100);
+        const overlay = document.createElement('div');
+        overlay.className = 'victory-overlay';
+        overlay.innerHTML = `
+            <div class="victory-stats">
+                <div class="victory-title">ПОБЕДА</div>
+                <div class="victory-points">${totalScore} / ${maxPossiblePoints} очков</div>
+                <input type="text" id="winnerNameInput" class="certificate-input" placeholder="Введите ваше имя" autocomplete="off">
+                <button id="downloadCertBtn" class="certificate-btn">📥 Получить сертификат</button>
+                <div class="cert-hint">⭐ Если поле пустое — скачается чистый бланк</div>
+                <button class="victory-close-btn">меню</button>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+        setTimeout(() => overlay.classList.add('active'), 10);
+        
+        const closeBtn = overlay.querySelector('.victory-close-btn');
+        closeBtn.addEventListener('click', () => {
+            overlay.classList.remove('active');
+            setTimeout(() => { overlay.remove(); exitToMenu(); }, 300);
+        });
+        
+        const downloadBtn = overlay.querySelector('#downloadCertBtn');
+        const nameInput = overlay.querySelector('#winnerNameInput');
+        downloadBtn.addEventListener('click', () => {
+            const playerName = nameInput ? nameInput.value : '';
+            downloadCertificateWithName(playerName);
+        });
+    }
+
+    function checkVictory() {
+        if (victoryAchieved || !gameActive) return;
+        const needed = Math.ceil(maxPossiblePoints * 0.75);
+        if (totalScore >= needed) {
+            victoryAchieved = true;
+            gameActive = false;
+            gameFinished = true;
+            stopTimer();
+            if (gameTimer) clearInterval(gameTimer);
+            submitBtn.disabled = true;
+            document.querySelectorAll('.sign-btn').forEach(btn => btn.style.pointerEvents = 'none');
+            showVictoryBlur();
+            feedbackDiv.innerHTML = `ПОБЕДА! ${totalScore} / ${maxPossiblePoints} очков`;
+        }
     }
 
     function renderChat(messages) {
@@ -1087,16 +983,10 @@
             avatarDiv.appendChild(avatarName);
             const bubbleContainer = document.createElement('div');
             bubbleContainer.className = 'bubble-container';
-            const styleIdx = (idx % 4);
-            const bubbleElem = renderers[styleIdx](msg.text, role, styleIdx);
+            const bubbleElem = renderers[idx % renderers.length](msg.text, role, idx);
             bubbleContainer.appendChild(bubbleElem);
-            if (role === 'scammer') {
-                messageDiv.appendChild(avatarDiv);
-                messageDiv.appendChild(bubbleContainer);
-            } else {
-                messageDiv.appendChild(bubbleContainer);
-                messageDiv.appendChild(avatarDiv);
-            }
+            if (role === 'scammer') { messageDiv.appendChild(avatarDiv); messageDiv.appendChild(bubbleContainer); }
+            else { messageDiv.appendChild(bubbleContainer); messageDiv.appendChild(avatarDiv); }
             chatLogEl.appendChild(messageDiv);
         });
         chatLogEl.scrollTop = chatLogEl.scrollHeight;
@@ -1106,14 +996,8 @@
         const dialog = currentSituations[currentIndex];
         if (!dialog) return;
         renderChat(dialog.messages);
-        const allSigns = [
-            ...dialog.correctSigns.map(t => ({ text: t, type: 'correct' })),
-            ...dialog.decoySigns.map(t => ({ text: t, type: 'decoy' }))
-        ];
-        for (let i = allSigns.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [allSigns[i], allSigns[j]] = [allSigns[j], allSigns[i]];
-        }
+        const allSigns = [...dialog.correctSigns.map(t => ({ text: t, type: 'correct' })), ...dialog.decoySigns.map(t => ({ text: t, type: 'decoy' }))];
+        for (let i = allSigns.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [allSigns[i], allSigns[j]] = [allSigns[j], allSigns[i]]; }
         signsContainer.innerHTML = '';
         selectedSignsSet.clear();
         allSigns.forEach(sign => {
@@ -1122,14 +1006,9 @@
             btn.textContent = sign.text;
             btn.setAttribute('data-type', sign.type);
             btn.addEventListener('click', () => {
-                if (!gameActive || waitingSubmit || gameFinished || isTransitioning) return;
-                if (btn.classList.contains('active')) {
-                    btn.classList.remove('active');
-                    selectedSignsSet.delete(sign.text);
-                } else {
-                    btn.classList.add('active');
-                    selectedSignsSet.add(sign.text);
-                }
+                if (!gameActive || waitingSubmit || gameFinished || isTransitioning || victoryAchieved) return;
+                if (btn.classList.contains('active')) { btn.classList.remove('active'); selectedSignsSet.delete(sign.text); }
+                else { btn.classList.add('active'); selectedSignsSet.add(sign.text); }
             });
             signsContainer.appendChild(btn);
         });
@@ -1139,20 +1018,9 @@
         return new Promise((resolve) => {
             const overlay = document.createElement('div');
             overlay.className = 'pause-overlay';
-            overlay.innerHTML = `
-                <div class="pause-stats">
-                    <div class="pause-points">+ ${earnedPoints}</div>
-                    <div class="pause-progress"><span>${correctCount}</span> / ${totalCorrect}</div>
-                    <div class="pause-counter-big" id="pauseCounter">5</div>
-                    <div class="pause-label">следующий диалог</div>
-                </div>
-            `;
+            overlay.innerHTML = `<div class="pause-stats"><div class="pause-points">+ ${earnedPoints}</div><div class="pause-progress"><span>${correctCount}</span> / ${totalCorrect}</div><div class="pause-counter-big" id="pauseCounter">5</div><div class="pause-label">следующий диалог</div></div>`;
             document.body.appendChild(overlay);
-            
-            setTimeout(() => {
-                overlay.classList.add('active');
-            }, 10);
-            
+            setTimeout(() => overlay.classList.add('active'), 10);
             let counter = 5;
             const counterSpan = overlay.querySelector('#pauseCounter');
             const interval = setInterval(() => {
@@ -1161,10 +1029,7 @@
                 if (counter <= 0) {
                     clearInterval(interval);
                     overlay.classList.remove('active');
-                    setTimeout(() => {
-                        overlay.remove();
-                        resolve();
-                    }, 500);
+                    setTimeout(() => { overlay.remove(); resolve(); }, 500);
                 }
             }, 1000);
         });
@@ -1172,28 +1037,17 @@
 
     async function transitionToNextDialog() {
         isTransitioning = true;
-        
         chatLogEl.classList.add('fade-out');
         signsContainer.classList.add('fade-out');
-        
         await new Promise(resolve => setTimeout(resolve, 300));
-        
         if (currentIndex + 1 < currentSituations.length) currentIndex++;
         else currentIndex = 0;
-        
         loadDialog();
-        
         chatLogEl.classList.remove('fade-out');
         signsContainer.classList.remove('fade-out');
-        
         chatLogEl.classList.add('fade-in');
         signsContainer.classList.add('fade-in');
-        
-        setTimeout(() => {
-            chatLogEl.classList.remove('fade-in');
-            signsContainer.classList.remove('fade-in');
-        }, 400);
-        
+        setTimeout(() => { chatLogEl.classList.remove('fade-in'); signsContainer.classList.remove('fade-in'); }, 400);
         isTransitioning = false;
     }
 
@@ -1201,45 +1055,42 @@
         const dialog = currentSituations[currentIndex];
         const selected = getSelectedDetails();
         let correctCount = 0, wrongCount = 0;
-        for (let s of selected) {
-            if (s.type === 'correct') correctCount++;
-            else wrongCount++;
-        }
+        for (let s of selected) if (s.type === 'correct') correctCount++; else wrongCount++;
         const totalCorrect = dialog.correctSigns.length;
         const missedCount = totalCorrect - correctCount;
         const earnedPoints = calculatePoints(correctCount, wrongCount, missedCount, totalCorrect);
-        
         totalScore += earnedPoints;
         totalScoreSpan.textContent = totalScore;
-        
+        checkVictory();
+        if (victoryAchieved) {
+            waitingSubmit = false;
+            submitBtn.disabled = true;
+            feedbackDiv.innerHTML = "ПОБЕДА! Игра завершена.";
+            return;
+        }
         await showPauseScreen(earnedPoints, correctCount, totalCorrect);
-        
-        await transitionToNextDialog();
-        
+        if (!victoryAchieved) await transitionToNextDialog();
         waitingSubmit = false;
         submitBtn.disabled = false;
         submitBtn.textContent = "ответить";
         signsPanel.style.opacity = '1';
         feedbackDiv.innerHTML = "выберите признаки";
-        gameActive = true;
+        gameActive = !victoryAchieved && !gameFinished;
     }
 
     function onSubmit() {
-        if (!gameActive) { feedbackDiv.innerHTML = "игра не начата"; return; }
-        if (waitingSubmit) return;
-        if (gameFinished) { feedbackDiv.innerHTML = "игра окончена"; return; }
-        if (isTransitioning) { feedbackDiv.innerHTML = "подождите, диалог загружается..."; return; }
-        if (!infiniteMode && remainingSeconds <= 0) {
-            feedbackDiv.innerHTML = "время вышло";
-            gameActive = false; gameFinished = true; submitBtn.disabled = true; return;
+        if (!gameActive || waitingSubmit || gameFinished || victoryAchieved || isTransitioning) {
+            if (victoryAchieved) feedbackDiv.innerHTML = "вы уже победили!";
+            else if (!gameActive) feedbackDiv.innerHTML = "игра не начата";
+            else if (gameFinished) feedbackDiv.innerHTML = "игра окончена";
+            return;
         }
+        if (!infiniteMode && remainingSeconds <= 0) { feedbackDiv.innerHTML = "время вышло"; gameActive = false; gameFinished = true; submitBtn.disabled = true; return; }
         waitingSubmit = true;
         submitBtn.disabled = true;
         signsPanel.style.opacity = '0.4';
         feedbackDiv.innerHTML = "⏳";
-        setTimeout(() => {
-            processRoundAndPause();
-        }, 80);
+        setTimeout(() => { processRoundAndPause(); }, 80);
     }
 
     function launchGame(mode, age) {
@@ -1250,30 +1101,21 @@
         selectedSignsSet.clear();
         waitingSubmit = false;
         gameFinished = false;
+        victoryAchieved = false;
         gameActive = true;
         isTransitioning = false;
         stopTimer();
-        
+        const totalSituations = currentSituations.length;
+        maxPossiblePoints = totalSituations * 100;
         if (mode === '1min') { infiniteMode = false; remainingSeconds = 60; startTimer(60, false); }
         else if (mode === '5min') { infiniteMode = false; remainingSeconds = 300; startTimer(300, false); }
         else { infiniteMode = true; startTimer(0, true); }
-        
-        chatLogEl.classList.add('fade-in');
-        signsContainer.classList.add('fade-in');
-        
         loadDialog();
-        
-        setTimeout(() => {
-            chatLogEl.classList.remove('fade-in');
-            signsContainer.classList.remove('fade-in');
-        }, 400);
-        
         submitBtn.disabled = false;
         submitBtn.textContent = "ответить";
         signsPanel.style.opacity = '1';
-        const category = getAgeCategory(age);
-        const categoryName = category === 'child' ? '12-15 лет' : (category === 'teen' ? '16-24 года' : '25+ лет');
-        feedbackDiv.innerHTML = infiniteMode ? `бесконечный режим · ${categoryName}` : `таймер активен · ${categoryName}`;
+        const needed = Math.ceil(maxPossiblePoints * 0.75);
+        feedbackDiv.innerHTML = `🎯 цель: ${needed} очков (75% от ${maxPossiblePoints}) | диалогов: ${totalSituations}`;
     }
 
     function exitToMenu() {
@@ -1282,277 +1124,49 @@
         gameFinished = false;
         waitingSubmit = false;
         isTransitioning = false;
+        victoryAchieved = false;
         if (gameTimer) clearInterval(gameTimer);
         const existingModal = document.querySelector('.modal-overlay');
-        if (existingModal) {
-            existingModal.classList.remove('active');
-            setTimeout(() => {
-                existingModal.remove();
-                showWelcomeModal();
-            }, 300);
-        } else {
-            showWelcomeModal();
-        }
+        if (existingModal) { existingModal.classList.remove('active'); setTimeout(() => { existingModal.remove(); showWelcomeModal(); }, 300); }
+        else { showWelcomeModal(); }
     }
 
     function createAgeSlider(defaultAge = 16) {
         const MIN = 12, MAX = 99;
-        const container = document.createElement('div');
-        container.className = 'carousel';
-        
-        const topPlaceholder = document.createElement('div');
-        topPlaceholder.className = 'age-item placeholder';
-        topPlaceholder.textContent = '•••';
-        container.appendChild(topPlaceholder);
-        
-        for (let age = MIN; age <= MAX; age++) {
-            const div = document.createElement('div');
-            div.className = 'age-item';
-            div.textContent = age;
-            div.setAttribute('data-age', age);
-            container.appendChild(div);
-        }
-        
-        const bottomPlaceholder = document.createElement('div');
-        bottomPlaceholder.className = 'age-item placeholder';
-        bottomPlaceholder.textContent = '•••';
-        container.appendChild(bottomPlaceholder);
-        
-        let isDragging = false;
-        let startY = 0;
-        let startScrollTop = 0;
-        
-        function getCurrentAge() {
-            const items = container.querySelectorAll('.age-item:not(.placeholder)');
-            const rect = container.getBoundingClientRect();
-            const centerY = rect.top + rect.height / 2;
-            let closest = null, minDist = Infinity;
-            items.forEach(item => {
-                const itemRect = item.getBoundingClientRect();
-                const itemCenter = itemRect.top + itemRect.height / 2;
-                const dist = Math.abs(centerY - itemCenter);
-                if (dist < minDist) {
-                    minDist = dist;
-                    closest = item;
-                }
-            });
-            return closest ? parseInt(closest.getAttribute('data-age'), 10) : defaultAge;
-        }
-        
-        function updateSelection() {
-            const current = getCurrentAge();
-            const items = container.querySelectorAll('.age-item');
-            items.forEach(item => {
-                const age = parseInt(item.getAttribute('data-age'), 10);
-                if (!isNaN(age) && age === current) {
-                    item.classList.add('selected');
-                } else {
-                    item.classList.remove('selected');
-                }
-            });
-        }
-        
-        function snapToNearest() {
-            const items = container.querySelectorAll('.age-item:not(.placeholder)');
-            const rect = container.getBoundingClientRect();
-            const centerY = rect.top + rect.height / 2;
-            let closest = null, minDist = Infinity;
-            items.forEach(item => {
-                const itemRect = item.getBoundingClientRect();
-                const itemCenter = itemRect.top + itemRect.height / 2;
-                const dist = Math.abs(centerY - itemCenter);
-                if (dist < minDist) {
-                    minDist = dist;
-                    closest = item;
-                }
-            });
-            if (closest) closest.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        
-        function scrollToAge(age) {
-            const items = container.querySelectorAll('.age-item');
-            for (let item of items) {
-                if (parseInt(item.getAttribute('data-age'), 10) === age) {
-                    item.scrollIntoView({ block: 'center', behavior: 'auto' });
-                    break;
-                }
-            }
-            updateSelection();
-        }
-        
-        container.addEventListener('mousedown', (e) => {
-            e.preventDefault();
-            isDragging = true;
-            startY = e.clientY;
-            startScrollTop = container.scrollTop;
-            container.style.scrollSnapType = 'none';
-            container.style.cursor = 'grabbing';
-        });
-        
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            e.preventDefault();
-            const delta = e.clientY - startY;
-            let newScrollTop = startScrollTop - delta;
-            newScrollTop = Math.max(0, Math.min(newScrollTop, container.scrollHeight - container.clientHeight));
-            container.scrollTop = newScrollTop;
-            updateSelection();
-        });
-        
-        window.addEventListener('mouseup', () => {
-            if (!isDragging) return;
-            isDragging = false;
-            container.style.scrollSnapType = 'y mandatory';
-            container.style.cursor = 'grab';
-            snapToNearest();
-        });
-        
-        container.addEventListener('scroll', () => {
-            updateSelection();
-        });
-        
-        container.addEventListener('wheel', () => {
-            setTimeout(updateSelection, 20);
-        });
-        
-        container.addEventListener('click', (e) => {
-            let target = e.target;
-            if (target.classList?.contains('age-item') && !target.classList.contains('placeholder')) {
-                const age = parseInt(target.getAttribute('data-age'), 10);
-                if (!isNaN(age)) scrollToAge(age);
-            }
-        });
-        
-        container.style.cursor = 'grab';
-        scrollToAge(defaultAge);
-        
+        const container = document.createElement('div'); container.className = 'carousel';
+        const topPlaceholder = document.createElement('div'); topPlaceholder.className = 'age-item placeholder'; topPlaceholder.textContent = '•••'; container.appendChild(topPlaceholder);
+        for (let age = MIN; age <= MAX; age++) { const div = document.createElement('div'); div.className = 'age-item'; div.textContent = age; div.setAttribute('data-age', age); container.appendChild(div); }
+        const bottomPlaceholder = document.createElement('div'); bottomPlaceholder.className = 'age-item placeholder'; bottomPlaceholder.textContent = '•••'; container.appendChild(bottomPlaceholder);
+        let isDragging = false, startY = 0, startScrollTop = 0;
+        function getCurrentAge() { const items = container.querySelectorAll('.age-item:not(.placeholder)'); const rect = container.getBoundingClientRect(); const centerY = rect.top + rect.height / 2; let closest = null, minDist = Infinity; items.forEach(item => { const itemRect = item.getBoundingClientRect(); const itemCenter = itemRect.top + itemRect.height / 2; const dist = Math.abs(centerY - itemCenter); if (dist < minDist) { minDist = dist; closest = item; } }); return closest ? parseInt(closest.getAttribute('data-age'), 10) : defaultAge; }
+        function updateSelection() { const current = getCurrentAge(); const items = container.querySelectorAll('.age-item'); items.forEach(item => { const age = parseInt(item.getAttribute('data-age'), 10); if (!isNaN(age) && age === current) item.classList.add('selected'); else item.classList.remove('selected'); }); }
+        function snapToNearest() { const items = container.querySelectorAll('.age-item:not(.placeholder)'); const rect = container.getBoundingClientRect(); const centerY = rect.top + rect.height / 2; let closest = null, minDist = Infinity; items.forEach(item => { const itemRect = item.getBoundingClientRect(); const itemCenter = itemRect.top + itemRect.height / 2; const dist = Math.abs(centerY - itemCenter); if (dist < minDist) { minDist = dist; closest = item; } }); if (closest) closest.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        function scrollToAge(age) { const items = container.querySelectorAll('.age-item'); for (let item of items) if (parseInt(item.getAttribute('data-age'), 10) === age) { item.scrollIntoView({ block: 'center', behavior: 'auto' }); break; } updateSelection(); }
+        container.addEventListener('mousedown', (e) => { e.preventDefault(); isDragging = true; startY = e.clientY; startScrollTop = container.scrollTop; container.style.scrollSnapType = 'none'; container.style.cursor = 'grabbing'; });
+        window.addEventListener('mousemove', (e) => { if (!isDragging) return; e.preventDefault(); const delta = e.clientY - startY; let newScrollTop = startScrollTop - delta; newScrollTop = Math.max(0, Math.min(newScrollTop, container.scrollHeight - container.clientHeight)); container.scrollTop = newScrollTop; updateSelection(); });
+        window.addEventListener('mouseup', () => { if (!isDragging) return; isDragging = false; container.style.scrollSnapType = 'y mandatory'; container.style.cursor = 'grab'; snapToNearest(); });
+        container.addEventListener('scroll', () => updateSelection());
+        container.addEventListener('wheel', () => setTimeout(updateSelection, 20));
+        container.addEventListener('click', (e) => { let target = e.target; if (target.classList?.contains('age-item') && !target.classList.contains('placeholder')) { const age = parseInt(target.getAttribute('data-age'), 10); if (!isNaN(age)) scrollToAge(age); } });
+        container.style.cursor = 'grab'; scrollToAge(defaultAge);
         return { container, getCurrentAge };
     }
 
     function showWelcomeModal() {
-        const overlay = document.createElement('div');
-        overlay.className = 'modal-overlay';
-        overlay.innerHTML = `
-            <div class="modal">
-                <h2>антимошенник</h2>
-                <div class="rules">
-                    <p>📌 выберите признаки обмана в диалоге</p>
-                    <p>🎯 максимум за раунд <strong>100 очков</strong></p>
-                    <p>⏱️ после ответа — пауза 5 секунд</p>
-                    <p>❌ ложные признаки и пропуски снижают счёт</p>
-                </div>
-                <div class="age-row">
-                    <span class="age-label">🎂 Ваш возраст</span>
-                    <div id="ageSliderContainer"></div>
-                </div>
-                <div class="time-options">
-                    <button data-time="1min" class="time-btn">1 минута</button>
-                    <button data-time="5min" class="time-btn">5 минут</button>
-                    <button data-time="infinite" class="time-btn">∞ бесконечно</button>
-                </div>
-                <button class="start-btn" id="modalStartBtn">начать игру</button>
-                <button id="helpBtn" class="start-btn" style="background: #27ae60; color: white; border: none; margin-top: 20px">📋 памятки</button>            </div>
-        `;
-        document.body.appendChild(overlay);
-        
-        setTimeout(() => {
-            overlay.classList.add('active');
-        }, 10);
-        
-        const sliderContainer = overlay.querySelector('#ageSliderContainer');
-        const { container: slider, getCurrentAge } = createAgeSlider(16);
-        sliderContainer.appendChild(slider);
-        
-        let chosenTime = '1min';
-        const btns = overlay.querySelectorAll('.time-btn');
-        btns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                btns.forEach(b => b.classList.remove('active-mode'));
-                btn.classList.add('active-mode');
-                chosenTime = btn.getAttribute('data-time');
-            });
-        });
-        btns[0].classList.add('active-mode');
-        
-        overlay.querySelector('#modalStartBtn').addEventListener('click', () => {
-            const age = getCurrentAge();
-            overlay.classList.remove('active');
-            setTimeout(() => {
-                overlay.remove();
-                launchGame(chosenTime, age);
-            }, 300);
-        });
-
-        const helpModalBtn = overlay.querySelector('#helpBtn');
-        if (helpModalBtn) {
-            helpModalBtn.addEventListener('click', () => {
-                showHelpModal();
-            });
-        }
+        const overlay = document.createElement('div'); overlay.className = 'modal-overlay';
+        overlay.innerHTML = `<div class="modal"><h2>антимошенник</h2><div class="rules"><p>📌 выберите признаки обмана в диалоге</p><p>🎯 максимум за раунд <strong>100 очков</strong></p><p>🏆 победа при 75% от максимума</p><p>❌ ложные признаки снижают счёт</p></div><div class="age-row"><span class="age-label">🎂 Ваш возраст</span><div id="ageSliderContainer"></div></div><div class="time-options"><button data-time="1min" class="time-btn">1 минута</button><button data-time="5min" class="time-btn">5 минут</button><button data-time="infinite" class="time-btn">∞ бесконечно</button></div><button class="start-btn" id="modalStartBtn">начать игру</button><button id="helpBtn" class="guides-btn" style="margin-top: 20px">📋 памятки</button></div>`;
+        document.body.appendChild(overlay); setTimeout(() => overlay.classList.add('active'), 10);
+        const sliderContainer = overlay.querySelector('#ageSliderContainer'); const { container: slider, getCurrentAge } = createAgeSlider(16); sliderContainer.appendChild(slider);
+        let chosenTime = '1min'; const btns = overlay.querySelectorAll('.time-btn'); btns.forEach(btn => { btn.addEventListener('click', () => { btns.forEach(b => b.classList.remove('active-mode')); btn.classList.add('active-mode'); chosenTime = btn.getAttribute('data-time'); }); }); btns[0].classList.add('active-mode');
+        overlay.querySelector('#modalStartBtn').addEventListener('click', () => { const age = getCurrentAge(); overlay.classList.remove('active'); setTimeout(() => { overlay.remove(); launchGame(chosenTime, age); }, 300); });
+        overlay.querySelector('#helpBtn').addEventListener('click', () => { showHelpModal(); });
     }
+
+    function showHelpModal() { const existingModal = document.querySelector('.help-modal-overlay'); if (existingModal) { existingModal.classList.remove('active'); setTimeout(() => existingModal.remove(), 300); return; } const overlay = document.createElement('div'); overlay.className = 'help-modal-overlay'; overlay.innerHTML = `<div class="help-modal"><h2>📚 полезные памятки</h2><div class="help-links"><a href="https://cantevenexist.github.io/stopscam/guides/Как%20защитить%20ребёнка%20от%20мошенников.pdf" target="_blank" class="help-link" rel="noopener noreferrer"><span class="help-link-emoji">👶</span><div class="help-link-text"><div>Как защитить ребёнка от мошенников</div></div></a><a href="https://cantevenexist.github.io/stopscam/guides/Памятка%20по%20противодействию%20мошенничеству%20-%20ЗАПОМНИ.pdf" target="_blank" class="help-link" rel="noopener noreferrer"><span class="help-link-emoji">🛡️</span><div class="help-link-text"><div>Памятка по противодействию мошенничеству - ЗАПОМНИ</div></div></a></div><button class="back-to-game-btn">← вернуться к игре</button></div>`; document.body.appendChild(overlay); setTimeout(() => overlay.classList.add('active'), 10); const backBtn = overlay.querySelector('.back-to-game-btn'); backBtn.addEventListener('click', () => { overlay.classList.remove('active'); setTimeout(() => overlay.remove(), 300); }); }
 
     submitBtn.addEventListener('click', onSubmit);
     exitBtn.addEventListener('click', exitToMenu);
     showWelcomeModal();
-
-    // Создание модального окна памятки
-    function showHelpModal() {
-        // Удаляем существующее окно, если есть
-        const existingModal = document.querySelector('.help-modal-overlay');
-        if (existingModal) {
-            existingModal.classList.remove('active');
-            setTimeout(() => existingModal.remove(), 300);
-            return;
-        }
-        
-        const overlay = document.createElement('div');
-        overlay.className = 'help-modal-overlay';
-        overlay.innerHTML = `
-            <div class="help-modal">
-                <h2>📚 полезные памятки</h2>
-                <div class="help-links">
-                    <a href="https://cantevenexist.github.io/stopscam/guides/Как%20защитить%20ребёнка%20от%20мошенников.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
-                        <span class="help-link-emoji">👶</span>
-                        <div class="help-link-text">
-                            <div>Как защитить ребёнка от мошенников</div>
-                        </div>
-                    </a>
-                    <a href="https://cantevenexist.github.io/stopscam/guides/Памятка%20по%20противодействию%20мошенничеству%20-%20ЗАПОМНИ.pdf" target="_blank" class="help-link" rel="noopener noreferrer">
-                        <span class="help-link-emoji">🛡️</span>
-                        <div class="help-link-text">
-                            <div>Памятка по противодействию мошенничеству - ЗАПОМНИ</div>
-                        </div>
-                    </a>
-                </div>
-                <button class="back-to-game-btn">← вернуться к игре</button>
-            </div>
-        `;
-        
-        document.body.appendChild(overlay);
-        
-        setTimeout(() => {
-            overlay.classList.add('active');
-        }, 10);
-        
-        // Кнопка возврата к игре
-        const backBtn = overlay.querySelector('.back-to-game-btn');
-        backBtn.addEventListener('click', () => {
-            overlay.classList.remove('active');
-            setTimeout(() => {
-                overlay.remove();
-            }, 300);
-        });
-        
-        // Закрытие по клику на фон
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.classList.remove('active');
-                setTimeout(() => {
-                    overlay.remove();
-                }, 300);
-            }
-        });
-    }
 </script>
 </body>
 </html>
